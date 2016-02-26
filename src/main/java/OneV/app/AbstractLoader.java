@@ -7,7 +7,7 @@ import java.nio.file.Path;
  */
 public interface AbstractLoader {
 
-    AbstractRawContainer loadImages(Path path);
+    AbstractRawContainer getContainer(Path path);
 
-    AbstractRawContainer addImages(AbstractRawContainer container, Path path);
+    void addImages(AbstractRawContainer container, Path path);
 }

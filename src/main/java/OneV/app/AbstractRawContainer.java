@@ -1,6 +1,7 @@
 package OneV.app;
 
 import java.awt.*;
+import java.util.AbstractCollection;
 import java.util.LinkedList;
 
 /**
@@ -8,8 +9,8 @@ import java.util.LinkedList;
  */
 public interface AbstractRawContainer {
 
+    void addImage(Image img);
     Image getFrame(int pos);
-    int lastGated();
     boolean hasNext(int pos);
     int size();
     int frameCount(Image img);

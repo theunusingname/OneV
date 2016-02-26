@@ -20,11 +20,11 @@ public class TimeLine implements AbstractTimeLine {
     }
 
     public void addBefore(AbstractRawContainer container, int containerCount) {
-
+// TODO: 26.02.2016  
     }
 
     public void addAfter(AbstractRawContainer container, int containerCount) {
-
+//// TODO: 26.02.2016  
     }
 
     public void addBeforeCurrent(AbstractRawContainer container) {
@@ -40,6 +40,7 @@ public class TimeLine implements AbstractTimeLine {
 
     public AbstractRawContainer cut(AbstractRawContainer container, PositionInTimeLine pos) {
         return null;
+        //// TODO: 26.02.2016  
     }
 
     public boolean cut(PositionInTimeLine pos)
@@ -90,7 +91,9 @@ public class TimeLine implements AbstractTimeLine {
         }
     }
 
-    public int getCurrentFrameCount() {
+    public int getCurrentFrameCount()
+    {
+        //// TODO: 26.02.2016  
         return 0;
     }
 }
