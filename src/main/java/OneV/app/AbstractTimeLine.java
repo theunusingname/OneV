@@ -19,4 +19,5 @@ public interface AbstractTimeLine {
     AbstractRawContainer getContainerOnPosition(PositionInTimeLine pos);
     Image getCurrentFrame();
     int getCurrentFrameCount();
+
 }

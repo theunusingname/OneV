@@ -2,6 +2,7 @@ package OneV.app;
 
 import java.awt.*;
 import java.util.AbstractCollection;
+import java.util.ListIterator;
 import java.util.Vector;
 
 /**
@@ -31,7 +32,8 @@ public class DefaultRawContainer implements AbstractRawContainer {
     }
 
     public boolean hasNext(int pos) {
-        return false;
+        ListIterator it= container.listIterator(pos);
+        return it.hasNext();
     }
 
     public int size() {
