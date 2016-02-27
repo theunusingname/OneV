@@ -8,4 +8,5 @@ import java.awt.*;
 public interface AbstractMovieView {
 
     void showFrame(Image img);
+    void showFrame(AbstractRawContainer cont, int pos);
 }
