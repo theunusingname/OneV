@@ -7,4 +7,5 @@ public interface AbstractTimeLineDriver {
     void play(int fps);
     void stop();
     boolean gotoPosition(PositionInTimeLine pos);
+
 }
