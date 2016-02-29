@@ -1,18 +1,24 @@
 package OneV.app;
 
 import java.awt.*;
+import java.util.Vector;
 
 /**
  * Created by Константин on 21.02.2016.
  */
 public class TimeLine implements AbstractTimeLine {
 
-    private PositionInTimeLine currentPosition;
+    private PositionInTimeLine currentPosition=new PositionInTimeLine();
+    private Vector<AbstractRawContainer> containers =new Vector<AbstractRawContainer>();
 
 
     TimeLine()
     {
-        currentPosition=new PositionInTimeLine();
+
+    }
+
+    public PositionInTimeLine getCurentPosition() {
+        return currentPosition;
     }
 
     public void addContainer(AbstractRawContainer container) {
@@ -28,13 +34,13 @@ public class TimeLine implements AbstractTimeLine {
     }
 
     public void addBeforeCurrent(AbstractRawContainer container) {
-        if (this.getCurrentContainerCount()==0)
+        if (this.getCurrentContainerIndex()==0)
         {
             this.addContainer(container);
         }
         else
         {
-            containers.insertElementAt(container,this.getCurrentContainerCount());
+            containers.insertElementAt(container,this.getCurrentContainerIndex());
         }
     }
 
@@ -51,7 +57,7 @@ public class TimeLine implements AbstractTimeLine {
             return false;
         }
         AbstractRawContainer frontHalf= this.getCurrentContainer().cut(this.currentPosition.currentFrameCount);
-        this.addAfter(frontHalf,this.getCurrentContainerCount());
+        this.addAfter(frontHalf,this.getCurrentContainerIndex());
         return true;
     }
 
@@ -60,7 +66,7 @@ public class TimeLine implements AbstractTimeLine {
         return containers.get(this.currentPosition.currentContainer);   // do not change, to avoid circuit relevance
     }
 
-    public int getCurrentContainerCount() {
+    public int getCurrentContainerIndex() {
         if (containers.size()==0)
         {
             return -1;
@@ -91,9 +97,13 @@ public class TimeLine implements AbstractTimeLine {
         }
     }
 
-    public int getCurrentFrameCount()
+    public int getCurrentFrameIndex()
     {
         //// TODO: 26.02.2016  
         return 0;
+    }
+
+    public int getContainersSize() {
+        return containers.size();
     }
 }

@@ -13,7 +13,7 @@ public interface AbstractRawContainer {
     Image getFrame(int pos);
     boolean hasNext(int pos);
     int size();
-    int frameCount(Image img);
+    int frameIndex(Image img);
     AbstractRawContainer cut(int pos);
     
 

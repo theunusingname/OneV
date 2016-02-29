@@ -40,7 +40,7 @@ public class DefaultRawContainer implements AbstractRawContainer {
         return container.size();
     }
 
-    public int frameCount(Image img) {
+    public int frameIndex(Image img) {
         return container.indexOf(img);
     }
 
