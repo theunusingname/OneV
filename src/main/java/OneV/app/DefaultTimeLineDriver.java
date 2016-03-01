@@ -7,6 +7,7 @@ public class DefaultTimeLineDriver implements AbstractTimeLineDriver   {
 
     private  AbstractTimeLine TimeLine;
     private  AbstractMovieView View;
+    Thread tr;
 
 
     DefaultTimeLineDriver(AbstractTimeLine TimeLine, AbstractMovieView view)
@@ -29,7 +30,8 @@ public class DefaultTimeLineDriver implements AbstractTimeLineDriver   {
     }
 
     public  void play(int fps) {
-        // TODO: 29.02.2016 запилить отдельный тред
+
+        tr=new Thread(()->{
         synchronized (View)
         {
             PositionInTimeLine position= TimeLine.getCurentPosition();
@@ -40,14 +42,22 @@ public class DefaultTimeLineDriver implements AbstractTimeLineDriver   {
                 for(int j=position.currentFrameCount;j<currentCont.size();j++)
                 {
                     View.showFrame(currentCont.getFrame(j));
+                    try {
+                        Thread.sleep(100/fps);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
                 position.currentFrameCount=0;
             }
         }
+        });
+        tr.start();
     }
 
     public void stop() {
 
+        tr.interrupt();
     }
 
     public boolean gotoPosition(PositionInTimeLine pos) {

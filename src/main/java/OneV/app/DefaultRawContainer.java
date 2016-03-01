@@ -10,6 +10,7 @@ import java.util.Vector;
  */
 public class DefaultRawContainer implements AbstractRawContainer {
 
+    public DefaultRawContainer(){this.container=new Vector<>();}
     public DefaultRawContainer(Vector<Image> cont)
     {
         this.container=new Vector<Image>(cont);
