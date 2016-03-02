@@ -7,8 +7,8 @@ public class DefaultTimeLineDriver implements AbstractTimeLineDriver   {
 
     private  AbstractTimeLine TimeLine;
     private  AbstractMovieView View;
-    Thread tr;
-
+    private Thread tr;
+    volatile boolean stopFlag;
 
     DefaultTimeLineDriver(AbstractTimeLine TimeLine, AbstractMovieView view)
     {
@@ -47,17 +47,23 @@ public class DefaultTimeLineDriver implements AbstractTimeLineDriver   {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    if(stopFlag)
+                        break;
                 }
+                if(stopFlag)
+                    break;
                 position.currentFrameCount=0;
             }
         }
         });
+        stopFlag=false;
         tr.start();
     }
 
     public void stop() {
 
-        tr.interrupt();
+        stopFlag=true;
+        tr=null;
     }
 
     public boolean gotoPosition(PositionInTimeLine pos) {
