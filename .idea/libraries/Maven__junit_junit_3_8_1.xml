@@ -5,9 +5,11 @@
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/opencv-3.0.0-1.1-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
       <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/opencv-3.0.0-1.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

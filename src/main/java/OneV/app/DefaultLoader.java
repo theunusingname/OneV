@@ -28,6 +28,7 @@ public class DefaultLoader implements AbstractLoader {
         FileDialog choseFilesDialog =new FileDialog(dialogFrame,"Chose Images",FileDialog.LOAD);
         choseFilesDialog.setVisible(true);
         imageFilesArray= choseFilesDialog.getFiles();
+        return this.createARContainer();
     }
 
 
@@ -60,12 +61,23 @@ public class DefaultLoader implements AbstractLoader {
 
     private AbstractRawContainer createARContainer()
     {
-        if(imageFilesArray.length==0)
-            return null;
-        else
-        {
+        Vector<Image> imagesVectorForResult=new Vector<>();
 
+        if(imageFilesArray.length==0){
+            return null;
         }
+
+            for (File imageFile : imageFilesArray) {
+
+                try {
+                    imagesVectorForResult.add(ImageIO.read(imageFile));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            return new DefaultRawContainer(imagesVectorForResult);
+
     }
 
     @Override

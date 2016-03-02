@@ -14,6 +14,7 @@ public class App
     public static void main( String[] args )
     {
         DefaultLoader loader=new DefaultLoader();
+        loader.getContainerWithDialog();
 
 
     }
