@@ -8,7 +8,7 @@ import java.util.Vector;
  */
 public class TimeLine implements AbstractTimeLine {
 
-    private PositionInTimeLine currentPosition=new PositionInTimeLine();
+    private PositionInTimeLine currentPosition=new PositionInTimeLine(0,0);
     private Vector<AbstractRawContainer> containers =new Vector<AbstractRawContainer>();
 
 
@@ -31,6 +31,12 @@ public class TimeLine implements AbstractTimeLine {
 
     public void addAfter(AbstractRawContainer container, int containerCount) {
 //// TODO: 26.02.2016  
+    }
+
+    @Override
+    public void setPosition(PositionInTimeLine pos) {
+        if (pos.currentContainer<=this.getContainersSize() && pos.currentFrameCount<= getContainerOnPosition(pos).size())
+            currentPosition=pos;
     }
 
     public void addBeforeCurrent(AbstractRawContainer container) {

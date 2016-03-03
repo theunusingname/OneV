@@ -2,6 +2,8 @@ package OneV.app;
 
 
 
+import com.sun.istack.internal.Nullable;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
@@ -22,12 +24,19 @@ public class DefaultLoader implements AbstractLoader {
 
     }
 
+    @Nullable
     public AbstractRawContainer getContainerWithDialog()
     {
         Frame dialogFrame=new Frame();
         FileDialog choseFilesDialog =new FileDialog(dialogFrame,"Chose Images",FileDialog.LOAD);
+        choseFilesDialog.setMultipleMode(true);
         choseFilesDialog.setVisible(true);
         imageFilesArray= choseFilesDialog.getFiles();
+        if (imageFilesArray.length==0)
+        {
+            System.out.println("no files selected");
+            return null;
+        }
         return this.createARContainer();
     }
 
@@ -59,6 +68,7 @@ public class DefaultLoader implements AbstractLoader {
         return result;
     }
 
+    @Nullable
     private AbstractRawContainer createARContainer()
     {
         Vector<Image> imagesVectorForResult=new Vector<>();
