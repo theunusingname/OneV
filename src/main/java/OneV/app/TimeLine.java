@@ -14,7 +14,7 @@ public class TimeLine implements AbstractTimeLine {
 
     TimeLine()
     {
-
+        ;
     }
 
     public PositionInTimeLine getCurentPosition() {
@@ -26,11 +26,19 @@ public class TimeLine implements AbstractTimeLine {
     }
 
     public void addBefore(AbstractRawContainer container, int containerCount) {
-// TODO: 26.02.2016  
-    }
+
+        if(containerCount>0) {
+            this.setPosition(new PositionInTimeLine(containerCount - 1, 0));
+        }else if(containerCount==0) {
+            this.setPosition(new PositionInTimeLine(0,0));
+        }else {
+            return;
+        }
+        this.addBeforeCurrent(container);
+        }
 
     public void addAfter(AbstractRawContainer container, int containerCount) {
-//// TODO: 26.02.2016  
+        this.addBefore(container,containerCount+1);
     }
 
     @Override
@@ -50,11 +58,6 @@ public class TimeLine implements AbstractTimeLine {
         }
     }
 
-    public AbstractRawContainer cut(AbstractRawContainer container, PositionInTimeLine pos) {
-        return null;
-        //// TODO: 26.02.2016  
-    }
-
     public boolean cut(PositionInTimeLine pos)
     {
         AbstractRawContainer currentCont=this.getContainerOnPosition(pos);
@@ -69,7 +72,7 @@ public class TimeLine implements AbstractTimeLine {
 
     public AbstractRawContainer getCurrentContainer() {
 
-        return containers.get(this.currentPosition.currentContainer);   // do not change, to avoid circuit relevance
+        return containers.get(this.currentPosition.currentContainer);   // do not change, to avoid circuit call
     }
 
     public int getCurrentContainerIndex() {

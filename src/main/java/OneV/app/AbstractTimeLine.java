@@ -13,7 +13,6 @@ public interface AbstractTimeLine {
     void addBefore(AbstractRawContainer container, int containerCount);
     void addAfter(AbstractRawContainer container, int containerCount);
     void setPosition(PositionInTimeLine pos);
-    AbstractRawContainer cut(AbstractRawContainer container,PositionInTimeLine pos);
     boolean cut(PositionInTimeLine pos);
     AbstractRawContainer getCurrentContainer();
     int getCurrentContainerIndex();
