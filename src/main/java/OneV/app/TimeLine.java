@@ -85,13 +85,13 @@ public class TimeLine implements AbstractTimeLine {
     }
 
     public AbstractRawContainer getContainerOnPosition(PositionInTimeLine pos) {
-        if (containers.size()==0)
+        if (containers.size()==0 || containers.size()<pos.currentContainer)
         {
             return null;
         }
         else
         {
-            return containers.get(currentPosition.currentContainer);
+            return containers.get(pos.currentContainer);
         }
     }
 
