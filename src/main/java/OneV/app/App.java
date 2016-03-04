@@ -21,9 +21,10 @@ public class App
             testTimeLine.setPosition(new PositionInTimeLine(0,0));
 
             DefaultMovieView view =new DefaultMovieView();
+            view.init();
+            view.setVisible(true);
             DefaultTimeLineDriver driver= new DefaultTimeLineDriver(testTimeLine,view);
             driver.play(1);
-
         }
 
     }
