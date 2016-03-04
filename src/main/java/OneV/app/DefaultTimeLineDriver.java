@@ -43,7 +43,7 @@ public class DefaultTimeLineDriver implements AbstractTimeLineDriver   {
                 {
                     View.showFrame(currentCont.getFrame(j));
                     try {
-                        Thread.sleep(100/fps);
+                        Thread.sleep(1000/fps);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
