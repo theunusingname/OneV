@@ -15,6 +15,7 @@ public class DefaultMovieView extends Frame implements AbstractMovieView {
 
     DefaultMovieView()
     {
+        super();
     }
 
     public void init()
@@ -28,12 +29,13 @@ public class DefaultMovieView extends Frame implements AbstractMovieView {
     public void paint(Graphics g)
     {
         imgContainer.paint(g);
-        //imgContainer.setVisible(true);
+        g.drawImage(imgBuffer,0,0,this);
+        imgContainer.setVisible(true);
     }
 
     @Override
     public void showFrame(Image img) {
-        imgBuffer=img;
+        imgBuffer=img.getScaledInstance(INIT_WIDTH,INIT_HEIGHT,Image.SCALE_SMOOTH);
         this.repaint();
         System.out.println(img.toString());
     }
