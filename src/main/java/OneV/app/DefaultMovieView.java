@@ -1,41 +1,47 @@
 package OneV.app;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 /**
  * Created by kkuznetsov on 03.03.2016.
  */
-public class DefaultMovieView extends Frame implements AbstractMovieView {
+public class DefaultMovieView extends Frame implements AbstractMovieView { //todo test class, refactor With Canvas extending
     final int INIT_WIDTH=640;
     final int INIT_HEIGHT=480;
-    Container imgContainer;
     Image imgBuffer;
 
     DefaultMovieView()
     {
         super();
+        addWindowListener(new MovieViewAdapter());
     }
 
     public void init()
     {
-        imgContainer=new Container();
+
         this.setTitle("my movie");
         this.setSize(INIT_WIDTH,INIT_HEIGHT);
-        this.add(imgContainer);
+
     }
 
     public void paint(Graphics g)
     {
-        imgContainer.paint(g);
-        g.drawImage(imgBuffer,0,0,this);
-        imgContainer.setVisible(true);
+        Graphics screengc = null;
+        screengc=g;
+        g=imgBuffer.getGraphics();
+
+        screengc.drawImage(imgBuffer,0,0,null);
     }
 
     @Override
     public void showFrame(Image img) {
-        imgBuffer=img.getScaledInstance(INIT_WIDTH,INIT_HEIGHT,Image.SCALE_SMOOTH);
+        imgBuffer=img;//.getScaledInstance(INIT_WIDTH,INIT_HEIGHT,Image.SCALE_SMOOTH);
+
         this.repaint();
         System.out.println(img.toString());
     }
@@ -43,5 +49,13 @@ public class DefaultMovieView extends Frame implements AbstractMovieView {
     @Override
     public void showFrame(AbstractRawContainer cont, int pos) {
 
+    }
+}
+
+class MovieViewAdapter extends WindowAdapter
+{
+    public void windowClosing(WindowEvent e)
+    {
+        System.exit(0);
     }
 }

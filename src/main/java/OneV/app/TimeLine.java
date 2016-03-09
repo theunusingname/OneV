@@ -10,12 +10,13 @@ public class TimeLine implements AbstractTimeLine {
 
     private PositionInTimeLine currentPosition=new PositionInTimeLine(0,0);
     private Vector<AbstractRawContainer> containers =new Vector<AbstractRawContainer>();
+//    private TimeLine previewTL= new TimeLine();
 
 
     TimeLine()
     {
         ;
-    }
+    } //// TODO: 09.03.2016 impement resize and save all img in added container for preview play  !!!
 
     public PositionInTimeLine getCurentPosition() {
         return currentPosition;
@@ -115,4 +116,6 @@ public class TimeLine implements AbstractTimeLine {
     public int getContainersSize() {
         return containers.size();
     }
+
+    private void addPreview(){}
 }

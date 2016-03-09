@@ -9,6 +9,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Vector;
 
 /**
@@ -86,12 +87,15 @@ public class DefaultLoader implements AbstractLoader {
                 }
 
             }
+
             return new DefaultRawContainer(imagesVectorForResult);
 
     }
 
     @Override
     public void addImages(AbstractRawContainer container, Path path) {
-
+//// TODO: 09.03.2016  
     }
+
+    
 }

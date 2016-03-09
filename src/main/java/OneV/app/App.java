@@ -24,7 +24,7 @@ public class App
             view.init();
             view.setVisible(true);
             DefaultTimeLineDriver driver= new DefaultTimeLineDriver(testTimeLine,view);
-            driver.play(1);
+            driver.play(2);
         }
 
     }

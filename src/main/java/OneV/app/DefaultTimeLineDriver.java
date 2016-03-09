@@ -1,5 +1,8 @@
 package OneV.app;
 
+import java.util.Date;
+import java.util.Timer;
+
 /**
  * Created by Константин on 28.02.2016.
  */
@@ -41,7 +44,10 @@ public class DefaultTimeLineDriver implements AbstractTimeLineDriver   {
                 AbstractRawContainer currentCont=TimeLine.getContainerOnPosition(position);
                 for(int j=position.currentFrameCount;j<currentCont.size();j++)
                 {
+                    Date date=new Date();
+                    long Ltime=date.getTime();
                     View.showFrame(currentCont.getFrame(j));
+                    System.out.println("Timer "+(Ltime-date.getTime()));
                     try {
                         Thread.sleep(1000/fps);
                     } catch (InterruptedException e) {
