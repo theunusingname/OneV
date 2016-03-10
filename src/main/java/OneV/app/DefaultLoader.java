@@ -9,13 +9,12 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collection;
 import java.util.Vector;
 
 /**
  * Created by Константин on 01.03.2016.
  */
-public class DefaultLoader implements AbstractLoader {
+public class DefaultLoader implements Loader {
 
     String directory;
     File[] imageFilesArray;
@@ -26,7 +25,7 @@ public class DefaultLoader implements AbstractLoader {
     }
 
     @Nullable
-    public AbstractRawContainer getContainerWithDialog()
+    public RawContainer getContainerWithDialog()
     {
         Frame dialogFrame=new Frame();
         FileDialog choseFilesDialog =new FileDialog(dialogFrame,"Chose Images",FileDialog.LOAD);
@@ -38,12 +37,12 @@ public class DefaultLoader implements AbstractLoader {
             System.out.println("no files selected");
             return null;
         }
-        return this.createARContainer();
+        return this.createRawContainer();
     }
 
 
     @Override
-    public AbstractRawContainer getContainer(Path path) {
+    public RawContainer getContainer(Path path) {
         Vector<Image> imagesVectorForResult=new Vector<>();
         File imageFolder=path.toFile();
         DefaultRawContainer result=null;
@@ -70,7 +69,7 @@ public class DefaultLoader implements AbstractLoader {
     }
 
     @Nullable
-    private AbstractRawContainer createARContainer()
+    private RawContainer createRawContainer()
     {
         Vector<Image> imagesVectorForResult=new Vector<>();
 
@@ -93,7 +92,7 @@ public class DefaultLoader implements AbstractLoader {
     }
 
     @Override
-    public void addImages(AbstractRawContainer container, Path path) {
+    public void addImages(RawContainer container, Path path) {
 //// TODO: 09.03.2016  
     }
 

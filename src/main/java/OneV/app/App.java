@@ -1,10 +1,5 @@
 package OneV.app;
 
-import java.awt.*;
-import java.io.File;
-import java.nio.*;
-import java.nio.file.Paths;
-
 
 public class App
 {
@@ -15,15 +10,15 @@ public class App
         if (testContainer!=null) {
             System.out.println("Images in test container: " + testContainer.size());
 
-            TimeLine testTimeLine = new TimeLine();
-            testTimeLine.addContainer(testContainer);
-            System.out.println("Containers in timeline: " + testTimeLine.getContainersSize());
-            testTimeLine.setPosition(new PositionInTimeLine(0,0));
+            DefaultTimeLine testDefaultTimeLine = new DefaultTimeLine();
+            testDefaultTimeLine.addContainer(testContainer);
+            System.out.println("Containers in timeline: " + testDefaultTimeLine.getContainersSize());
+            testDefaultTimeLine.setPosition(new PositionInTimeLine(0,0));
 
             DefaultMovieView view =new DefaultMovieView();
             view.init();
             view.setVisible(true);
-            DefaultTimeLineDriver driver= new DefaultTimeLineDriver(testTimeLine,view);
+            DefaultTimeLineDriver driver= new DefaultTimeLineDriver(testDefaultTimeLine,view);
             driver.play(2);
         }
 

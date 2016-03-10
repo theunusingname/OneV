@@ -1,14 +1,13 @@
 package OneV.app;
 
 import java.awt.*;
-import java.util.AbstractCollection;
 import java.util.ListIterator;
 import java.util.Vector;
 
 /**
  * Created by Константин on 26.02.2016.
  */
-public class DefaultRawContainer implements AbstractRawContainer {
+public class DefaultRawContainer implements RawContainer {
 
     public DefaultRawContainer(){this.container=new Vector<>();}
     public DefaultRawContainer(Vector<Image> cont)
@@ -45,8 +44,8 @@ public class DefaultRawContainer implements AbstractRawContainer {
         return container.indexOf(img);
     }
 
-    public AbstractRawContainer cut(int pos) {
-        AbstractRawContainer result=new DefaultRawContainer(new Vector<Image> (container.subList(pos, container.size() - 1)));
+    public RawContainer cut(int pos) {
+        RawContainer result=new DefaultRawContainer(new Vector<Image> (container.subList(pos, container.size() - 1)));
         container.setSize(pos);
         return result;
     }

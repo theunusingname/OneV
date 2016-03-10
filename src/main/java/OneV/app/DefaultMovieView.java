@@ -3,14 +3,11 @@ package OneV.app;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 
 /**
  * Created by kkuznetsov on 03.03.2016.
  */
-public class DefaultMovieView extends Frame implements AbstractMovieView { //todo test class, refactor With Canvas extending
+public class DefaultMovieView extends Frame implements MovieView { //todo test class, refactor With Canvas extending
     final int INIT_WIDTH=640;
     final int INIT_HEIGHT=480;
     Image imgBuffer;
@@ -47,7 +44,7 @@ public class DefaultMovieView extends Frame implements AbstractMovieView { //tod
     }
 
     @Override
-    public void showFrame(AbstractRawContainer cont, int pos) {
+    public void showFrame(RawContainer cont, int pos) {
 
     }
 }

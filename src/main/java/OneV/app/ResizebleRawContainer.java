@@ -1,7 +1,5 @@
 package OneV.app;
 
-import com.sun.org.apache.regexp.internal.RE;
-
 import java.awt.*;
 import java.io.File;
 import java.util.Vector;
@@ -9,7 +7,7 @@ import java.util.Vector;
 /**
  * Created by Константин on 09.03.2016.
  */
-public class ResizebleRawContainer implements AbstractRawContainer {
+public class ResizebleRawContainer implements RawContainer {
     private DefaultRawContainer container;
     private Vector<File> linkedFiles;
     private int width, height;
@@ -50,7 +48,7 @@ public class ResizebleRawContainer implements AbstractRawContainer {
     }
 
     @Override
-    public AbstractRawContainer cut(int pos) {
+    public RawContainer cut(int pos) {
         return container.cut(pos);
     }
 

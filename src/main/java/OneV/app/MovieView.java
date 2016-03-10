@@ -6,9 +6,9 @@ import java.awt.*;
 /**
  * Created by Константин on 27.02.2016.
  */
-public interface AbstractMovieView {
+public interface MovieView {
 
     void  showFrame(Image img);
-    void showFrame(AbstractRawContainer cont, int pos);
+    void showFrame(RawContainer cont, int pos);
 
 }
