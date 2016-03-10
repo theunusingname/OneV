@@ -36,10 +36,10 @@ public class FileLoader implements Loader {
 
     @Override
     public RawContainer getContainer(Path path) {
-        Vector<Image> imagesVectorForResult=new Vector<>();
-        Vector<File> fileLinks =new Vector<>();
+        Vector<PreviewImage> imagesVectorForResult=new Vector<>();
+
         File imageFolder=path.toFile();
-        DefaultRawContainer result=null;
+        ResizebleRawContainer result=null;
         try {
             // TODO: 01.03.2016 проверить вложенные папки
             if (imageFolder.isDirectory()) {
@@ -47,10 +47,10 @@ public class FileLoader implements Loader {
                 imageFilesArray = imageFolder.listFiles();
                 for (File imageFile : imageFilesArray) {
 
-                    imagesVectorForResult.add(ImageIO.read(imageFile));
+                    imagesVectorForResult.add((PreviewImage) ImageIO.read(imageFile));
 
                 }
-                result = new DefaultRawContainer(imagesVectorForResult);
+                result = new ResizebleRawContainer(imagesVectorForResult);
             } else if (imageFolder.isFile()) {
                 imagesVectorForResult.add(ImageIO.read(imageFolder));
 

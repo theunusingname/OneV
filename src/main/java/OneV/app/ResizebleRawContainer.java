@@ -9,17 +9,21 @@ import java.util.Vector;
  */
 public class ResizebleRawContainer implements RawContainer {
     private DefaultRawContainer container;
-    private Vector<File> linkedFiles;
     private int width, height;
     private int scaledHint=Image.SCALE_SMOOTH;
 
-    ResizebleRawContainer(int w, int h)
+    public ResizebleRawContainer(int w, int h, int hint)
     {
         width=w;
         height=h;
+        scaledHint=hint;
         container=new DefaultRawContainer();
     }
 
+    public ResizebleRawContainer(int W, int h, int hint,Vector<Image> init)
+    {
+
+    }
 
     @Override
     public void addImage(Image img) {
