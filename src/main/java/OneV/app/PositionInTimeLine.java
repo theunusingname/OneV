@@ -7,7 +7,7 @@ public class PositionInTimeLine {
     public int currentContainer;
     public int currentFrameCount;
 
-    PositionInTimeLine(int containerCount, int currentFrameCount)
+    public PositionInTimeLine(int containerCount, int currentFrameCount)
     {
         this.currentFrameCount = currentFrameCount;
         this.currentContainer=containerCount;

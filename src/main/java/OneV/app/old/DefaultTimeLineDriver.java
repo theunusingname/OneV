@@ -1,4 +1,8 @@
-package OneV.app;
+package OneV.app.old;
+
+import OneV.app.MovieView;
+import OneV.app.PositionInTimeLine;
+import OneV.app.TimeLineDriver;
 
 import java.util.Date;
 
@@ -7,18 +11,18 @@ import java.util.Date;
  */
 public class DefaultTimeLineDriver implements TimeLineDriver {
 
-    private OneV.app.TimeLine TimeLine;
+    private OneV.app.old.TimeLine TimeLine;
     private MovieView View;
     private Thread tr;
     volatile boolean stopFlag;
 
-    DefaultTimeLineDriver(OneV.app.TimeLine TimeLine, MovieView view)
+    DefaultTimeLineDriver(OneV.app.old.TimeLine TimeLine, MovieView view)
     {
         this.TimeLine=TimeLine;
         this.View=view;
     }
 
-    public DefaultTimeLineDriver getDriver(OneV.app.TimeLine TimeLine, MovieView view )
+    public DefaultTimeLineDriver getDriver(OneV.app.old.TimeLine TimeLine, MovieView view )
     {
         if (TimeLine!=null && view!=null)
         {

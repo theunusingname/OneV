@@ -1,4 +1,6 @@
-package OneV.app;
+package OneV.app.old;
+
+import OneV.app.PositionInTimeLine;
 
 import java.awt.*;
 import java.util.Vector;
@@ -13,7 +15,7 @@ public class DefaultTimeLine implements TimeLine {
 //    private TimeLine previewTL= new TimeLine();
 
 
-    DefaultTimeLine()
+    public DefaultTimeLine()
     {
         ;
     } //// TODO: 09.03.2016 impement resize and save all img in added container for preview play  !!!

@@ -1,4 +1,4 @@
-package OneV.app;
+package OneV.app.old;
 
 
 
@@ -19,7 +19,7 @@ public class DefaultLoader implements Loader {
     String directory;
     File[] imageFilesArray;
 
-    DefaultLoader()
+    public DefaultLoader()
     {
 
     }
