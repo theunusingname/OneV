@@ -18,7 +18,7 @@ public class DefaultTimeLine implements TimeLine {
     public DefaultTimeLine()
     {
         ;
-    } //// TODO: 09.03.2016 impement resize and save all img in added container for preview play  !!!
+    }
 
     public PositionInTimeLine getCurentPosition() {
         return currentPosition;

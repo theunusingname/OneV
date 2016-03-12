@@ -2,6 +2,7 @@ package OneV.app.old;
 
 import java.awt.*;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -16,6 +17,7 @@ public class DefaultRawContainer implements RawContainer {
     }
 
     private Vector<Image> container;
+
     private int lastImg;
     public void addImage(Image img)
     {

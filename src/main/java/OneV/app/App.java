@@ -10,8 +10,8 @@ public class App
 {
     public static void main( String[] args )
     {
-        DefaultLoader loader=new DefaultLoader();
-        DefaultRawContainer testContainer= (DefaultRawContainer) loader.getContainerWithDialog();
+        FileLoader loader=new FileLoader(true,640,480);
+        ResizebleRawContainer   testContainer= (ResizebleRawContainer) loader.getContainerWithDialog();
         if (testContainer!=null) {
             System.out.println("Images in test container: " + testContainer.size());
 

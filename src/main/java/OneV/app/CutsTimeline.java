@@ -1,21 +1,19 @@
 package OneV.app;
 
-import java.awt.*;
-
 /**
  * Created by kkuznetsov on 11.03.2016.
  */
 public interface CutsTimeline {
     PositionInTimeLine getCurrentPosition();
-    void addContainer(FramesCut container);
-    void addBefore(FramesCut container, int containerCount);
-    void addAfter(FramesCut container, int containerCount);
+    void addContainer(FramesCut cut);
+    void addBefore(FramesCut cut, int cutCount);
+    void addAfter(FramesCut cut, int cutCount);
     void setPosition(PositionInTimeLine pos);
     boolean cut(PositionInTimeLine pos);
     FramesCut getCurrentContainer();
     int getCurrentContainerIndex();
     FramesCut getContainerOnPosition(PositionInTimeLine pos);
-    Image getCurrentFrame();
+    MovieFrame getCurrentFrame();
     int getCurrentFrameIndex();
     int getContainersSize();
 }

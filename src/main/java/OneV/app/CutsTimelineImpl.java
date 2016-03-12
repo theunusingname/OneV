@@ -1,74 +1,122 @@
 package OneV.app;
 
-import OneV.app.old.RawContainer;
-
-import java.awt.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Created by kkuznetsov on 11.03.2016.
  */
 public class CutsTimelineImpl implements CutsTimeline {
     private PositionInTimeLine currentPosition=new PositionInTimeLine(0,0);
-    private Vector<FramesCut> containers = new Vector<>();
+    private ArrayList<FramesCut> containers = new ArrayList<>();
 
     @Override
     public PositionInTimeLine getCurrentPosition() {
-        return null;
+        return currentPosition;
     }
 
     @Override
-    public void addContainer(FramesCut container) {
-
+    public void addContainer(FramesCut cut) {
+        containers.add(cut);
     }
 
     @Override
-    public void addBefore(FramesCut container, int containerCount) {
+    public void addBefore(FramesCut cut, int cutCount) {
+        if(cutCount >0) {
+            this.setPosition(new PositionInTimeLine(cutCount - 1, 0));
+        }else if(cutCount ==0) {
+            this.setPosition(new PositionInTimeLine(0,0));
+        }else {
+            return;
+        }
+        this.addBeforeCurrent(cut);
+    }
 
+    public void addBeforeCurrent(FramesCut cut)
+    {
+        if (this.getCurrentContainerIndex()==0)
+        {
+            this.addContainer(cut);
+        }
+        else
+        {
+            containers.add(this.getCurrentContainerIndex(),cut);
+        }
     }
 
     @Override
-    public void addAfter(FramesCut container, int containerCount) {
-
+    public void addAfter(FramesCut cut, int cutCount) {
+        this.addBefore(cut, cutCount +1);
     }
 
     @Override
     public void setPosition(PositionInTimeLine pos) {
-
+       if(pos.currentContainer<=containers.size()) {
+           if (pos.currentFrameCount <= containers.get(pos.currentContainer).size()) {
+               currentPosition = pos;
+           }
+       }
+        else System.out.println("cant set roller");
     }
 
     @Override
     public boolean cut(PositionInTimeLine pos) {
-        return false;
+
+        FramesCut currentCont=this.getContainerOnPosition(pos);
+        if(currentCont==null)
+        {
+            return false;
+        }
+        FramesCut frontHalf= this.getCurrentContainer().cut(this.currentPosition.currentFrameCount);
+        this.addAfter(frontHalf,this.getCurrentContainerIndex());
+        return true;
     }
 
     @Override
     public FramesCut getCurrentContainer() {
-        return null;
+        return containers.get(currentPosition.currentContainer);
     }
 
     @Override
     public int getCurrentContainerIndex() {
-        return 0;
+        if (containers.size()==0)
+        {
+            return -1;
+        }
+
+        return containers.indexOf(getCurrentContainer());
     }
 
     @Override
     public FramesCut getContainerOnPosition(PositionInTimeLine pos) {
-        return null;
+        if (containers.size()==0 || containers.size()<pos.currentContainer)
+        {
+            return null;
+        }
+        else
+        {
+            return containers.get(pos.currentContainer);
+        }
     }
 
     @Override
-    public Image getCurrentFrame() {
-        return null;
+    public MovieFrame getCurrentFrame() {
+        if (containers.size()==0)
+        {
+            return null;
+        }
+        else
+        {
+            return containers.get(this.currentPosition.currentContainer).getFrame(this.currentPosition.currentFrameCount);
+        }
     }
 
     @Override
     public int getCurrentFrameIndex() {
-        return 0;
+        return currentPosition.currentFrameCount;
     }
 
     @Override
     public int getContainersSize() {
-        return 0;
+        return containers.size();
     }
 }

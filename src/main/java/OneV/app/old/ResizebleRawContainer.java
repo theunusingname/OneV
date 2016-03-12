@@ -12,16 +12,18 @@ public class ResizebleRawContainer implements RawContainer {
     private int width, height;
     private int scaledHint=Image.SCALE_SMOOTH;
 
-    public ResizebleRawContainer(int w, int h, int hint)
+    public ResizebleRawContainer(int width, int height, int hint)
     {
-        width=w;
-        height=h;
+        this.width=width;
+        this.height=height;
         scaledHint=hint;
         container=new DefaultRawContainer();
     }
 
-    public ResizebleRawContainer(int W, int h, int hint,Vector<Image> init)
+    public ResizebleRawContainer(int width, int height, int hint,Vector<Image> init)
     {
+        this(width,height,hint);
+        container=new DefaultRawContainer(init);
 
     }
 
