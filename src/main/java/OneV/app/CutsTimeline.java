@@ -1,5 +1,8 @@
 package OneV.app;
 
+import java.awt.*;
+import java.io.File;
+
 /**
  * Created by kkuznetsov on 11.03.2016.
  */
@@ -13,7 +16,8 @@ public interface CutsTimeline {
     FramesCut getCurrentContainer();
     int getCurrentContainerIndex();
     FramesCut getContainerOnPosition(PositionInTimeLine pos);
-    MovieFrame getCurrentFrame();
+    Image getCurrentFrame();
+    File getCurrentFile();
     int getCurrentFrameIndex();
     int getContainersSize();
 }

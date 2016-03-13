@@ -1,5 +1,7 @@
 package OneV.app;
 
+import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -99,7 +101,7 @@ public class CutsTimelineImpl implements CutsTimeline {
     }
 
     @Override
-    public MovieFrame getCurrentFrame() {
+    public Image getCurrentFrame() {
         if (containers.size()==0)
         {
             return null;
@@ -107,6 +109,18 @@ public class CutsTimelineImpl implements CutsTimeline {
         else
         {
             return containers.get(this.currentPosition.currentContainer).getFrame(this.currentPosition.currentFrameCount);
+        }
+    }
+
+    @Override
+    public File getCurrentFile() {
+        if (containers.size()==0)
+        {
+            return null;
+        }
+        else
+        {
+            return containers.get(this.currentPosition.currentContainer).getFrameFile(this.currentPosition.currentFrameCount);
         }
     }
 

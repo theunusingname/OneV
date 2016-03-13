@@ -7,8 +7,15 @@ import java.io.File;
  * Created by kkuznetsov on 11.03.2016.
  */
 public class MovieFrameImpl implements MovieFrame {
-    Image img;
-    File file;
+    private Image img;
+    private File file;
+
+    MovieFrameImpl(Image img, File file)
+    {
+        this.img=img;
+        this.file=file;
+    }
+
     @Override
     public void setFrame(Image img) {
         this.img=img;

@@ -1,5 +1,6 @@
 package OneV.app;
 
+import java.io.File;
 import java.nio.file.Path;
 
 /**
@@ -7,7 +8,7 @@ import java.nio.file.Path;
  */
 public interface CutLoader {
 
-    FramesCut getCut(Path path);
+    FramesCut getCut(File[] files);
     FramesCut getCutWithDialog();
     void addFrame(FramesCut container, Path path);
 }

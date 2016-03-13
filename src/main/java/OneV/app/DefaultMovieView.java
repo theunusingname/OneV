@@ -17,6 +17,8 @@ public class DefaultMovieView extends Frame implements MovieView { //todo test c
     DefaultMovieView()
     {
         super();
+        this.setVisible(true);
+        setSize(640,480);
         addWindowListener(new MovieViewAdapter());
     }
 
@@ -39,7 +41,7 @@ public class DefaultMovieView extends Frame implements MovieView { //todo test c
 
     @Override
     public void showFrame(Image img) {
-        imgBuffer=img;//.getScaledInstance(INIT_WIDTH,INIT_HEIGHT,Image.SCALE_SMOOTH);
+        imgBuffer=img;
 
         this.repaint();
         System.out.println(img.toString());

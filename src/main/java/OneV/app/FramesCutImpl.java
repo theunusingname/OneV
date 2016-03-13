@@ -1,6 +1,7 @@
 package OneV.app;
 
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -28,9 +29,15 @@ public class FramesCutImpl implements FramesCut {
     }
 
     @Override
-    public MovieFrame getFrame(int pos) {
+    public Image getFrame(int pos) {
         lastGeted=pos;
-        return frames.get(pos);
+        return frames.get(pos).getFrame();
+    }
+
+    @Override
+    public File getFrameFile(int pos) {
+        lastGeted=pos;
+        return frames.get(pos).getFile();
     }
 
     @Override

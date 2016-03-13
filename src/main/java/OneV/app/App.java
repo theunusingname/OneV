@@ -8,24 +8,20 @@ import OneV.app.old.DefaultTimeLineDriver;
 
 public class App
 {
-    public static void main( String[] args )
-    {
-        FileLoader loader=new FileLoader(true,640,480);
-        ResizebleRawContainer   testContainer= (ResizebleRawContainer) loader.getContainerWithDialog();
-        if (testContainer!=null) {
-            System.out.println("Images in test container: " + testContainer.size());
+    public static void main( String[] args ) throws InterruptedException {
+        CutLoaderImpl loader= new CutLoaderImpl(640,480);
+        FramesCut cut=loader.getCutWithDialog();
 
-            DefaultTimeLine testDefaultTimeLine = new DefaultTimeLine();
-            testDefaultTimeLine.addContainer(testContainer);
-            System.out.println("Containers in timeline: " + testDefaultTimeLine.getContainersSize());
-            testDefaultTimeLine.setPosition(new PositionInTimeLine(0,0));
+        //       System.out.println("frames in cut "+cut.size());
+        CutsTimeline timeline=new CutsTimelineImpl();
+        timeline.addContainer(cut);
+        System.out.println("cuts in timeline " +timeline.getContainersSize());
+        DefaultMovieView view=new DefaultMovieView();
+        TimeLineDriver driver=new TimeLineDriverImpl(timeline,view);
+        driver.play(10);
 
-            DefaultMovieView view =new DefaultMovieView();
-            view.init();
-            view.setVisible(true);
-            DefaultTimeLineDriver driver= new DefaultTimeLineDriver(testDefaultTimeLine,view);
-            driver.play(2);
-        }
+
+
 
     }
 }
