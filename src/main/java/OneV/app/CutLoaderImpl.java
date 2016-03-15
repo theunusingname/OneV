@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.concurrent.RunnableFuture;
 
 /**
  * Created by Константин on 12.03.2016.
@@ -20,6 +21,7 @@ public class CutLoaderImpl implements CutLoader {
     private int width;
     private int height;
     private int scaleHint;
+    boolean inLoading;
     Thread tr;
 
     CutLoaderImpl(int width, int height)
@@ -30,27 +32,37 @@ public class CutLoaderImpl implements CutLoader {
     }
 
     @Override
-    public FramesCut getCut(File[] files) {
+    public FramesCut getCut(File[] files)  {
         ArrayList<MovieFrame> frames=new ArrayList<>();
+        tr=new Thread(()-> {
+            synchronized (frames){
+            inLoading=true;
+            for (File file : imageFilesArray) {
+                try {
+                    Image img = ImageIO.read(file);
+                    if (img == null) {
+                        continue;
+                    } else {
+                        System.out.println("Loading:" + file.toString());
+                        MovieFrame frame = new MovieFrameImpl(toBufferedImage(img.getScaledInstance(width, height, scaleHint)), file);
+                        frames.add(frame);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-        for (File file: imageFilesArray)
-        {
+            }
+            inLoading=false;
+
+        }});
+        tr.start();
+        Thread thr=  Thread.currentThread();
+        while (tr.isAlive()){
             try {
-                Image img =ImageIO.read(file);
-                if(img==null)
-                {
-                    continue;
-                }
-                else
-                {
-                    System.out.println("Loading:" +file.toString());
-                    MovieFrame frame= new MovieFrameImpl(toBufferedImage(img.getScaledInstance(width,height,scaleHint)),file);
-                    frames.add(frame);
-                }
-            } catch (IOException e) {
+                thr.sleep(10);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
 
         return new FramesCutImpl(frames);

@@ -20,8 +20,5 @@ public class App
         TimeLineDriver driver=new TimeLineDriverImpl(timeline,view);
         driver.play(10);
 
-
-
-
     }
 }
