@@ -10,6 +10,7 @@ public class App
 {
     public static void main( String[] args ) throws InterruptedException {
         CutLoaderImpl loader= new CutLoaderImpl(640,480);
+        loader.setNeedAwaitLoading(true);
         FramesCut cut=loader.getCutWithDialog();
 
         //       System.out.println("frames in cut "+cut.size());
