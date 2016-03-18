@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.RunnableFuture;
 
 /**
@@ -21,11 +22,13 @@ public class CutLoaderImpl implements CutLoader {
     private int width;
     private int height;
     private int scaleHint;
-    boolean inLoading;
+    private boolean inLoading;
+    private boolean needAwaitLoading;
     Thread tr;
 
     CutLoaderImpl(int width, int height)
     {
+        needAwaitLoading=false;
         this.width=width;
         this.height=height;
         scaleHint=Image.SCALE_FAST;
@@ -34,6 +37,8 @@ public class CutLoaderImpl implements CutLoader {
     @Override
     public FramesCut getCut(File[] files)  {
         ArrayList<MovieFrame> frames=new ArrayList<>();
+        CountDownLatch latch=new CountDownLatch(files.length);
+
         tr=new Thread(()-> {
             synchronized (frames){
             inLoading=true;
@@ -41,11 +46,13 @@ public class CutLoaderImpl implements CutLoader {
                 try {
                     Image img = ImageIO.read(file);
                     if (img == null) {
+                        latch.countDown();
                         continue;
                     } else {
                         System.out.println("Loading:" + file.toString());
                         MovieFrame frame = new MovieFrameImpl(toBufferedImage(img.getScaledInstance(width, height, scaleHint)), file);
                         frames.add(frame);
+                        latch.countDown();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -56,10 +63,10 @@ public class CutLoaderImpl implements CutLoader {
 
         }});
         tr.start();
-        Thread thr=  Thread.currentThread();
-        while (tr.isAlive()){
+
+        if(needAwaitLoading) {
             try {
-                thr.sleep(10);
+                latch.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -107,4 +114,18 @@ public class CutLoaderImpl implements CutLoader {
         // Return the buffered image
         return bimage;
     }
+
+    public boolean isInLoading()
+    {
+        return inLoading;
+    }
+
+    public boolean isNeedAwaitLoading() {
+        return needAwaitLoading;
+    }
+
+    public void setNeedAwaitLoading(boolean needAwaitLoading) {
+        this.needAwaitLoading = needAwaitLoading;
+    }
 }
+
