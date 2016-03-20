@@ -5,6 +5,6 @@ import javax.swing.*;
 /**
  * Created by kkuznetsov on 18.03.2016.
  */
-public class MainWindow extends JFrame {
+public class MainWindow extends JWindow {
 
 }
