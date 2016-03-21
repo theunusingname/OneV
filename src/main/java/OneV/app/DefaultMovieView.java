@@ -9,25 +9,22 @@ import java.awt.event.WindowEvent;
 /**
  * Created by kkuznetsov on 03.03.2016.
  */
-public class DefaultMovieView extends Frame implements MovieView { //todo test class, refactor With Canvas extending
+public class DefaultMovieView extends Canvas implements MovieView {
     final int INIT_WIDTH=640;
     final int INIT_HEIGHT=480;
     Image imgBuffer;
 
-    DefaultMovieView()
+    public DefaultMovieView()
     {
         super();
         this.setVisible(true);
         setSize(640,480);
-        addWindowListener(new MovieViewAdapter());
+
     }
 
     public void init()
     {
-
-        this.setTitle("my movie");
         this.setSize(INIT_WIDTH,INIT_HEIGHT);
-
     }
 
     public void paint(Graphics g)
@@ -53,10 +50,3 @@ public class DefaultMovieView extends Frame implements MovieView { //todo test c
     }
 }
 
-class MovieViewAdapter extends WindowAdapter
-{
-    public void windowClosing(WindowEvent e)
-    {
-        System.exit(0);
-    }
-}

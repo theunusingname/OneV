@@ -26,7 +26,7 @@ public class CutLoaderImpl implements CutLoader {
     private boolean needAwaitLoading;
     Thread tr;
 
-    CutLoaderImpl(int width, int height)
+    public CutLoaderImpl(int width, int height)
     {
         needAwaitLoading=false;
         this.width=width;
