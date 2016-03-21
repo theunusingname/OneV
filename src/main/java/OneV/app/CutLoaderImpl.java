@@ -28,7 +28,7 @@ public class CutLoaderImpl implements CutLoader {
 
     public CutLoaderImpl(int width, int height)
     {
-        needAwaitLoading=false;
+        needAwaitLoading=true;
         this.width=width;
         this.height=height;
         scaleHint=Image.SCALE_FAST;
@@ -59,7 +59,8 @@ public class CutLoaderImpl implements CutLoader {
                 }
 
             }
-            inLoading=false;
+                System.out.println("loading finished");
+                inLoading=false;
 
         }});
         tr.start();

@@ -5,6 +5,7 @@ import OneV.app.CutLoaderImpl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -13,24 +14,20 @@ import java.awt.event.ItemListener;
  */
 public class LoadingToolbarElement extends JPanel {
 
-    private CutLoaderImpl loader;
     private JButton loadButton;
+    public ActionListener parent;
 
-    LoadingToolbarElement(CutLoader loader)
+
+
+    LoadingToolbarElement( ActionListener parent)
     {
         super();
-        loader = loader;
+        this.parent=parent;
         setLayout(new FlowLayout());
         loadButton=new JButton("load");
         add(loadButton);
         setVisible(true);
-        loadButton.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-
-            }
-        });
-
+        loadButton.addActionListener(parent);
 
     }
 

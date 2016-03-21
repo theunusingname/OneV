@@ -9,7 +9,7 @@ import java.awt.event.WindowEvent;
 /**
  * Created by kkuznetsov on 03.03.2016.
  */
-public class DefaultMovieView extends Canvas implements MovieView {
+public class DefaultMovieView extends Panel implements MovieView { // TODO: 21.03.2016 refactor with Swing
     final int INIT_WIDTH=640;
     final int INIT_HEIGHT=480;
     Image imgBuffer;
@@ -17,6 +17,7 @@ public class DefaultMovieView extends Canvas implements MovieView {
     public DefaultMovieView()
     {
         super();
+
         this.setVisible(true);
         setSize(640,480);
 
@@ -25,6 +26,7 @@ public class DefaultMovieView extends Canvas implements MovieView {
     public void init()
     {
         this.setSize(INIT_WIDTH,INIT_HEIGHT);
+
     }
 
     public void paint(Graphics g)

@@ -14,7 +14,7 @@ public class TimeLineDriverImpl implements TimeLineDriver {
     private Thread tr;
     volatile boolean stopFlag;
 
-    TimeLineDriverImpl(CutsTimeline timeline, MovieView view)
+    public TimeLineDriverImpl(CutsTimeline timeline, MovieView view)
     {
         this.timeLine =timeline;
         this.View=view;
