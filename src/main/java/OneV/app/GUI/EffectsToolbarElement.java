@@ -5,5 +5,5 @@ import javax.swing.*;
 /**
  * Created by kkuznetsov on 21.03.2016.
  */
-public class EffectPalletePanel extends JPanel {
+public class EffectsToolbarElement extends JPanel {
 }

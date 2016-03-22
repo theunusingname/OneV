@@ -33,7 +33,7 @@ public class DefaultMovieView extends Panel implements MovieView { // TODO: 21.0
     {
         Graphics screengc = null;
         screengc=g;
-        g=imgBuffer.getGraphics();
+        g= imgBuffer==null ?  g : imgBuffer.getGraphics();
 
         screengc.drawImage(imgBuffer,0,0,null);
     }

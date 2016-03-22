@@ -1,7 +1,5 @@
 package OneV.app.GUI;
 
-import OneV.app.CutLoader;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -9,9 +7,10 @@ import java.awt.event.ActionListener;
 /**
  * Created by Константин on 18.03.2016.
  */
-public class ToolbarPanel extends JPanel {
+public class ToolbarPanel extends JToolBar {
 
-    LoadingToolbarElement loadingPart;
+    LoadingToolbarElement loadingToolbarElement;
+    EditToolbarElement editToolbarElement;
     ActionListener parent;
 
     ToolbarPanel(ActionListener parent)
@@ -19,9 +18,11 @@ public class ToolbarPanel extends JPanel {
         super();
         this.parent=parent;
         setLayout(new FlowLayout());
-        loadingPart=new LoadingToolbarElement(parent);
-        add(loadingPart);
-        add(new JPopupMenu.Separator());
+        loadingToolbarElement =new LoadingToolbarElement(parent);
+        editToolbarElement= new EditToolbarElement(parent);
+        add(loadingToolbarElement,FlowLayout.LEFT);
+        addSeparator(new Dimension(2,10));
+        add(new JButton("button"));
     }
 
     public void paintComponent(Graphics g)
