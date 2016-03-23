@@ -1,23 +1,20 @@
 package OneV.app;
 
-import OneV.app.old.RawContainer;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 import java.util.Date;
 
 /**
  * Created by Константин on 28.02.2016.
  */
 
-public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener, ContainerListener {
+public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
     private CutsTimeline timeLine;
     private MovieView View;
     private Thread tr;
+    private JSlider slider;
     volatile boolean stopFlag;
     volatile int currentSliderPos;
     int maxSlider;
@@ -26,20 +23,9 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener, Conta
     {
         this.timeLine =timeline;
         this.View=view;
+        timeline.setDriver(this);
     }
 
-    public TimeLineDriverImpl getDriver(CutsTimeline timeLine, MovieView view )
-    {
-        if (timeLine!=null && view!=null)
-        {
-            return new TimeLineDriverImpl(timeLine,view);
-        }
-        else
-        {
-            System.out.println("timeLine or view doesn't exist");
-            return null;
-        }
-    }
 
     public  void play(int fps) {
 
@@ -81,39 +67,49 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener, Conta
         tr=null;
     }
 
+    static public int timeLinePositionToInt(CutsTimeline timeline,PositionInTimeLine pos)
+    {
+        return 0;
+    }
+
     public boolean gotoPosition(PositionInTimeLine pos) {
         return false;
     }
 
     public JSlider getSlider()
     {
-        JSlider result;
+        if(timeLine==null)
+        {
+            return null;
+        }
+
         for(int i=0;i<timeLine.getContainersSize();i++)
         {
             FramesCut currentCont= timeLine.getContainerOnPosition(new PositionInTimeLine(i,0));
             maxSlider=+currentCont.size();
         }
-        result=new JSlider(0,maxSlider);
-        result.addChangeListener(this);
+        slider=new JSlider(0,maxSlider);
+        slider.addChangeListener(this);
 
 
-        return result;
+        return slider;
 
     }
 
+    public void updateSlider()
+    {
+        if (timeLine==null)
+            return;
+        else
+        {
+            getSlider();
+        }
+    }
 
     @Override
     public void stateChanged(ChangeEvent e) {
         System.out.println(e.toString());
     }
 
-    @Override
-    public void componentAdded(ContainerEvent e) {
 
-    }
-
-    @Override
-    public void componentRemoved(ContainerEvent e) {
-
-    }
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class CutsTimelineImpl implements CutsTimeline {
     private PositionInTimeLine currentPosition=new PositionInTimeLine(0,0);
     private ArrayList<FramesCut> containers = new ArrayList<>();
+    private TimeLineDriverImpl currentDriver;
 
     @Override
     public PositionInTimeLine getCurrentPosition() {
@@ -31,7 +32,7 @@ public class CutsTimelineImpl implements CutsTimeline {
             return;
         }
         this.addBeforeCurrent(cut);
-    }
+        if(currentDriver!=null) currentDriver.updateSlider();    }
 
     public void addBeforeCurrent(FramesCut cut)
     {
@@ -43,11 +44,12 @@ public class CutsTimelineImpl implements CutsTimeline {
         {
             containers.add(this.getCurrentContainerIndex(),cut);
         }
-    }
+        if(currentDriver!=null) currentDriver.updateSlider();    }
 
     @Override
     public void addAfter(FramesCut cut, int cutCount) {
         this.addBefore(cut, cutCount +1);
+       if(currentDriver!=null) currentDriver.updateSlider();
     }
 
     @Override
@@ -132,5 +134,10 @@ public class CutsTimelineImpl implements CutsTimeline {
     @Override
     public int getContainersSize() {
         return containers.size();
+    }
+
+    @Override
+    public void setDriver(TimeLineDriverImpl currentDriver) {
+        this.currentDriver = currentDriver;
     }
 }

@@ -20,4 +20,5 @@ public interface CutsTimeline {
     File getCurrentFile();
     int getCurrentFrameIndex();
     int getContainersSize();
+    void setDriver(TimeLineDriverImpl timeLineDriver);
 }
