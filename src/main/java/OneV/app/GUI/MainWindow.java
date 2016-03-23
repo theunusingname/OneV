@@ -29,6 +29,7 @@ public class MainWindow implements ActionListener {
         loader=new CutLoaderImpl(640,480);
         timeLinePanel=new TimeLinePanel(this);
         toolbarPanel =new ToolbarPanel(this);
+
         frame=new JFrame("OneV");
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

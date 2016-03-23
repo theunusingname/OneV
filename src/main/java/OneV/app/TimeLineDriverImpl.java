@@ -2,17 +2,25 @@ package OneV.app;
 
 import OneV.app.old.RawContainer;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.util.Date;
 
 /**
  * Created by Константин on 28.02.2016.
  */
-public class TimeLineDriverImpl implements TimeLineDriver {
+
+public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener, ContainerListener {
 
     private CutsTimeline timeLine;
     private MovieView View;
     private Thread tr;
     volatile boolean stopFlag;
+    volatile int currentSliderPos;
+    int maxSlider;
 
     public TimeLineDriverImpl(CutsTimeline timeline, MovieView view)
     {
@@ -77,6 +85,35 @@ public class TimeLineDriverImpl implements TimeLineDriver {
         return false;
     }
 
+    public JSlider getSlider()
+    {
+        JSlider result;
+        for(int i=0;i<timeLine.getContainersSize();i++)
+        {
+            FramesCut currentCont= timeLine.getContainerOnPosition(new PositionInTimeLine(i,0));
+            maxSlider=+currentCont.size();
+        }
+        result=new JSlider(0,maxSlider);
+        result.addChangeListener(this);
 
 
+        return result;
+
+    }
+
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        System.out.println(e.toString());
+    }
+
+    @Override
+    public void componentAdded(ContainerEvent e) {
+
+    }
+
+    @Override
+    public void componentRemoved(ContainerEvent e) {
+
+    }
 }
