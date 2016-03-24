@@ -130,11 +130,13 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
             FramesCut currentCont= timeLine.getContainerOnPosition(new PositionInTimeLine(i,0));
             maxSlider=+currentCont.size();
         }
-        slider=new JSlider(0,maxSlider);
-        slider.addChangeListener(this);
-        slider.setName("validSlider");
-        slider.setExtent(1);
 
+        if(slider==null) {
+            slider = new JSlider(0, maxSlider);
+            slider.addChangeListener(this);
+            slider.setName("validSlider");
+            slider.setExtent(1);
+        }
         return slider;
 
     }
@@ -145,6 +147,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
             return;
         else
         {
+            getSlider();
             slider.setMaximum(maxSlider);
         }
     }
