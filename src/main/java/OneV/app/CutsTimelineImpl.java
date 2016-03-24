@@ -1,13 +1,13 @@
 package OneV.app;
 
 import java.awt.*;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
  * Created by kkuznetsov on 11.03.2016.
  */
-public class CutsTimelineImpl implements CutsTimeline {
+public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     private PositionInTimeLine currentPosition=new PositionInTimeLine(0,0);
     private ArrayList<FramesCut> containers = new ArrayList<>();
     private TimeLineDriverImpl currentDriver;
@@ -140,5 +140,15 @@ public class CutsTimelineImpl implements CutsTimeline {
     @Override
     public void setDriver(TimeLineDriverImpl currentDriver) {
         this.currentDriver = currentDriver;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        // TODO: 24.03.2016 http://www.skipy.ru/technics/serialization.html
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+
     }
 }

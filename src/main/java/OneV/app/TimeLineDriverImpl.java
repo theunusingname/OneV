@@ -74,7 +74,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         tr=null;
     }
 
-    static public int timeLinePositionToInt(CutsTimeline timeline,PositionInTimeLine pos)
+    static public int timeLinePositionToInt(CutsTimeline timeline,PositionInTimeLine pos)//// TODO: 23.03.2016  
     {
         if(timeline==null || pos==null)
             return 0;
