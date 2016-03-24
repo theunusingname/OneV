@@ -3,12 +3,14 @@ package OneV.app.GUI;
 import OneV.app.CutsTimeline;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
  * Created by kkuznetsov on 18.03.2016.
  */
-public class TimeLinePanel extends JPanel{
+public class TimeLinePanel extends JPanel implements ChangeListener {
     MainWindow parent;
     JSlider timeLineSlider;
     CutsTimeline timeline;
@@ -18,6 +20,7 @@ public class TimeLinePanel extends JPanel{
         super();
         this.parent=parent;
         timeLineSlider=parent.driver.getSlider();
+        timeLineSlider.addChangeListener(this);
         setBorder(BorderFactory.createLineBorder(Color.BLUE,3));
         timeLineSlider.setBounds(0,0,getWidth(),getHeight());
         add(timeLineSlider);
@@ -30,4 +33,9 @@ public class TimeLinePanel extends JPanel{
         //g.drawLine(0,getHeight()/2,getWidth(),getHeight()/2);
     }
 
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        repaint();
+    }
 }
+

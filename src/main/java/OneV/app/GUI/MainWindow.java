@@ -19,6 +19,7 @@ public class MainWindow implements ActionListener {
     private MoviePreViewPanel moviePreViewPanel;
     private TimeLinePanel timeLinePanel;
     private JFrame frame;
+    private JMenuBar mainMenubar;
     protected CutsTimelineImpl mainTimeLine=new CutsTimelineImpl();
     TimeLineDriverImpl driver;
 
@@ -29,8 +30,9 @@ public class MainWindow implements ActionListener {
         loader=new CutLoaderImpl(640,480);
         timeLinePanel=new TimeLinePanel(this);
         toolbarPanel =new ToolbarPanel(this);
-
+        mainMenubar=new MainMenu(this);
         frame=new JFrame("OneV");
+        frame.setJMenuBar(mainMenubar);
         frame.setLayout(new BorderLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(toolbarPanel,BorderLayout.NORTH);
@@ -45,12 +47,16 @@ public class MainWindow implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         switch (e.getActionCommand()) {
-            case "load": mainTimeLine.addContainer( loader.getCutWithDialog());
+            case "load":
+            case "Load":
+                mainTimeLine.addContainer( loader.getCutWithDialog());
                 break;
-            case "start": driver.play(2);
+            case "start": driver.play(3);
                 break;
             case "stop": driver.stop();
                 break;
+            default:
+                System.out.println("Unknown command " +e.getActionCommand());
 
         }
     }

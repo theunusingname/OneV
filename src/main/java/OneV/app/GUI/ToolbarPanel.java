@@ -21,6 +21,7 @@ public class ToolbarPanel extends JToolBar {
         loadingToolbarElement =new LoadingToolbarElement(parent);
         editToolbarElement= new EditToolbarElement(parent);
         add(loadingToolbarElement,FlowLayout.LEFT);
+        add(editToolbarElement,FlowLayout.LEFT);
         addSeparator(new Dimension(2,10));
         add(new JButton("button"));
     }

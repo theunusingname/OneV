@@ -20,6 +20,7 @@ public class CutsTimelineImpl implements CutsTimeline {
     @Override
     public void addContainer(FramesCut cut) {
         containers.add(cut);
+        if(currentDriver!=null) currentDriver.updateSlider();
     }
 
     @Override
@@ -32,7 +33,7 @@ public class CutsTimelineImpl implements CutsTimeline {
             return;
         }
         this.addBeforeCurrent(cut);
-        if(currentDriver!=null) currentDriver.updateSlider();    }
+            }
 
     public void addBeforeCurrent(FramesCut cut)
     {
@@ -132,7 +133,7 @@ public class CutsTimelineImpl implements CutsTimeline {
     }
 
     @Override
-    public int getContainersSize() {
+    public int getContainersSize() {// TODO: 24.03.2016 need rename
         return containers.size();
     }
 
