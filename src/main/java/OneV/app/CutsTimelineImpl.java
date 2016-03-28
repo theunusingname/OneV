@@ -7,10 +7,15 @@ import java.util.ArrayList;
 /**
  * Created by kkuznetsov on 11.03.2016.
  */
-public class CutsTimelineImpl implements CutsTimeline, Serializable{
-    private PositionInTimeLine currentPosition=new PositionInTimeLine(0,0);
+public class CutsTimelineImpl implements CutsTimeline, Externalizable {
+    private PositionInTimeLine currentPosition;
     private ArrayList<FramesCut> containers = new ArrayList<>();
     private TimeLineDriverImpl currentDriver;
+
+    public CutsTimelineImpl()
+    {
+        currentPosition=new PositionInTimeLine(0,0);
+    }
 
     @Override
     public PositionInTimeLine getCurrentPosition() {
@@ -142,5 +147,13 @@ public class CutsTimelineImpl implements CutsTimeline, Serializable{
         this.currentDriver = currentDriver;
     }
 
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(containers);
+    }
 
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        containers=(ArrayList<FramesCut>) in.readObject();
+    }
 }

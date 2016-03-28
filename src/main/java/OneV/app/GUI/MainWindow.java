@@ -64,6 +64,7 @@ public class MainWindow implements ActionListener {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                break;
             default:
                 System.out.println("Unknown command " +e.getActionCommand());
 

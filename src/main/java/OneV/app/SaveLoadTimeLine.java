@@ -16,5 +16,6 @@ public class SaveLoadTimeLine {
         FileOutputStream fos=new FileOutputStream(output);
         ObjectOutputStream oos =new ObjectOutputStream(fos);
         oos.writeObject(timeline);
+        fos.close();
     }
 }
