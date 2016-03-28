@@ -1,13 +1,13 @@
 package OneV.app;
 
 import java.awt.*;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
  * Created by kkuznetsov on 11.03.2016.
  */
-public class FramesCutImpl implements FramesCut {
+public class FramesCutImpl implements FramesCut, Serializable {
     private ArrayList<MovieFrame> frames;
     private int lastGeted;
 

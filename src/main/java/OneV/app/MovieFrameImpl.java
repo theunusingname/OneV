@@ -1,15 +1,19 @@
 package OneV.app;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.Serializable;
+import java.io.*;
 
 /**
  * Created by kkuznetsov on 11.03.2016.
  */
-public class MovieFrameImpl implements MovieFrame, Serializable {
+public class MovieFrameImpl implements MovieFrame, Externalizable {
     private Image img;
     private File file;
+    MovieFrameImpl()
+    {
+
+    }
 
     MovieFrameImpl(Image img, File file)
     {
@@ -35,5 +39,16 @@ public class MovieFrameImpl implements MovieFrame, Serializable {
     @Override
     public File getFile() {
         return file;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(file);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+       file=(File) in.readObject();
+        img= ImageIO.read(file);
     }
 }

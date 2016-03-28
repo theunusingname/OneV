@@ -2,12 +2,14 @@ package OneV.app.GUI;
 
 import OneV.app.CutLoaderImpl;
 import OneV.app.CutsTimelineImpl;
+import OneV.app.SaveLoadTimeLine;
 import OneV.app.TimeLineDriverImpl;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -40,21 +42,28 @@ public class MainWindow implements ActionListener {
         frame.add(timeLinePanel,BorderLayout.SOUTH);
         frame.setSize(800,600);
         frame.setVisible(true);
+
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        switch (e.getActionCommand()) {
+        switch (e.getActionCommand().toLowerCase()) {
             case "load":
-            case "Load":
                 mainTimeLine.addContainer( loader.getCutWithDialog());
                 break;
             case "start": driver.play(3);
                 break;
             case "stop": driver.stop();
                 break;
+            case "save":
+                try {
+                    if(mainTimeLine.getContainersSize()>0) SaveLoadTimeLine.save(mainTimeLine);
+                    else break;
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             default:
                 System.out.println("Unknown command " +e.getActionCommand());
 
