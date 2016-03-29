@@ -4,6 +4,8 @@ import OneV.app.MovieView;
 import OneV.app.PositionInTimeLine;
 import OneV.app.TimeLineDriver;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.util.Date;
 
 /**
@@ -79,6 +81,19 @@ public class DefaultTimeLineDriver implements TimeLineDriver {
         return false;
     }
 
+    @Override
+    public JSlider getSlider() {
+        return null;
+    }
+
+    @Override
+    public void updateSlider() {
+
+    }
 
 
+    @Override
+    public void stateChanged(ChangeEvent e) {
+
+    }
 }

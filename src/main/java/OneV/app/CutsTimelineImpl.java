@@ -3,6 +3,7 @@ package OneV.app;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by kkuznetsov on 11.03.2016.
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     private PositionInTimeLine currentPosition;
     private ArrayList<FramesCut> containers = new ArrayList<>();
-    private TimeLineDriverImpl currentDriver;
+    private TimeLineDriver currentDriver;
 
     public CutsTimelineImpl()
     {
@@ -20,6 +21,13 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     @Override
     public PositionInTimeLine getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public void addContainers(Collection<FramesCut> cuts) {
+        for (FramesCut cut: cuts) {
+            this.addContainer(cut);
+        }
     }
 
     @Override
@@ -143,7 +151,7 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     }
 
     @Override
-    public void setDriver(TimeLineDriverImpl currentDriver) {
+    public void setDriver(TimeLineDriver currentDriver) {
         this.currentDriver = currentDriver;
     }
 

@@ -2,12 +2,14 @@ package OneV.app;
 
 import java.awt.*;
 import java.io.File;
+import java.util.Collection;
 
 /**
  * Created by kkuznetsov on 11.03.2016.
  */
 public interface CutsTimeline {
     PositionInTimeLine getCurrentPosition();
+    void addContainers(Collection<FramesCut> cuts);
     void addContainer(FramesCut cut);
     void addBefore(FramesCut cut, int cutCount);
     void addAfter(FramesCut cut, int cutCount);
@@ -20,5 +22,5 @@ public interface CutsTimeline {
     File getCurrentFile();
     int getCurrentFrameIndex();
     int getContainersSize();
-    void setDriver(TimeLineDriverImpl timeLineDriver);
+    void setDriver(TimeLineDriver currentDriver);
 }

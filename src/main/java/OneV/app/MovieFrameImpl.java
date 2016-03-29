@@ -2,6 +2,7 @@ package OneV.app;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
@@ -10,7 +11,8 @@ import java.io.*;
 public class MovieFrameImpl implements MovieFrame, Externalizable {
     private Image img;
     private File file;
-    MovieFrameImpl()
+
+    public MovieFrameImpl()
     {
     }
 
@@ -47,7 +49,7 @@ public class MovieFrameImpl implements MovieFrame, Externalizable {
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-       file=(File) in.readObject();
-        img= ImageIO.read(file);
+        file=(File) in.readObject();
+        img= CutLoaderImpl.toBufferedImage(ImageIO.read(file).getScaledInstance(640,480,Image.SCALE_SMOOTH));
     }
 }

@@ -70,12 +70,16 @@ public class MainWindow implements ActionListener {
 
             case "loadproject":
                 try {
-                    mainTimeLine= (CutsTimelineImpl) SaveLoadTimeLine.load();
+                    mainTimeLine.addContainers(SaveLoadTimeLine.load());
+
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 } catch (ClassNotFoundException e1) {
                     e1.printStackTrace();
                 }
+
+                System.out.println("loading finished");
+                break;
             default:
                 System.out.println("Unknown command " +e.getActionCommand());
 

@@ -26,6 +26,11 @@ public class TimeLinePanel extends JPanel implements ChangeListener {
         add(timeLineSlider);
     }
 
+    public void setNewSlider(JSlider slider)
+    {
+        timeLineSlider=slider;
+    }
+
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);

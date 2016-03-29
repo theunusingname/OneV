@@ -2,6 +2,7 @@ package OneV.app;
 
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Created by Константин on 26.03.2016.
@@ -15,18 +16,28 @@ public class SaveLoadTimeLine {
         File output=new File( dialog.getDirectory()+dialog.getFile()+".ovp");
         FileOutputStream fos=new FileOutputStream(output);
         ObjectOutputStream oos =new ObjectOutputStream(fos);
-        oos.writeObject(timeline);
+        oos.writeInt(timeline.getContainersSize());
+        for (int i=timeline.getContainersSize();i>0;i--)
+        {
+            oos.writeObject( timeline.getContainerOnPosition(new PositionInTimeLine(i-1,0)));
+        }
+        oos.close();
         fos.close();
     }
 
-    public static CutsTimeline  load() throws IOException, ClassNotFoundException {
+    public static ArrayList<FramesCut> load() throws IOException, ClassNotFoundException {
+        ArrayList<FramesCut> result=new ArrayList<>();
         Frame dialogFrame=new Frame();
         FileDialog dialog =new FileDialog(dialogFrame,"Save",FileDialog.LOAD);
         dialog.setVisible(true);
         File input=new File(dialog.getDirectory()+ dialog.getFile());
         FileInputStream fis=new FileInputStream(input);
         ObjectInputStream ois=new ObjectInputStream(fis);
-        CutsTimelineImpl result= (CutsTimelineImpl) ois.readObject();
+        int size=ois.readInt();
+        for (;size>0;size--)
+        {
+            result.add((FramesCutImpl)ois.readObject());
+        }
         ois.close();
         fis.close();
         return result;
