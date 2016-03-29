@@ -59,12 +59,23 @@ public class MainWindow implements ActionListener {
                 break;
             case "save":
                 try {
-                    if(mainTimeLine.getContainersSize()>0) SaveLoadTimeLine.save(mainTimeLine);
+                    if(mainTimeLine.getContainersSize()>0) {
+                        SaveLoadTimeLine.save(mainTimeLine);
+                        break;
+                    }
                     else break;
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                break;
+
+            case "loadproject":
+                try {
+                    mainTimeLine= (CutsTimelineImpl) SaveLoadTimeLine.load();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (ClassNotFoundException e1) {
+                    e1.printStackTrace();
+                }
             default:
                 System.out.println("Unknown command " +e.getActionCommand());
 

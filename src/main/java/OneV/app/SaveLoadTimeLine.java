@@ -12,10 +12,23 @@ public class SaveLoadTimeLine {
         Frame dialogFrame=new Frame();
         FileDialog dialog =new FileDialog(dialogFrame,"Save",FileDialog.SAVE);
         dialog.setVisible(true);
-        File output=new File( dialog.getFile());
+        File output=new File( dialog.getDirectory()+dialog.getFile()+".ovp");
         FileOutputStream fos=new FileOutputStream(output);
         ObjectOutputStream oos =new ObjectOutputStream(fos);
         oos.writeObject(timeline);
         fos.close();
+    }
+
+    public static CutsTimeline  load() throws IOException, ClassNotFoundException {
+        Frame dialogFrame=new Frame();
+        FileDialog dialog =new FileDialog(dialogFrame,"Save",FileDialog.LOAD);
+        dialog.setVisible(true);
+        File input=new File(dialog.getDirectory()+ dialog.getFile());
+        FileInputStream fis=new FileInputStream(input);
+        ObjectInputStream ois=new ObjectInputStream(fis);
+        CutsTimelineImpl result= (CutsTimelineImpl) ois.readObject();
+        ois.close();
+        fis.close();
+        return result;
     }
 }

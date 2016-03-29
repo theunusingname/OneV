@@ -12,7 +12,6 @@ public class MovieFrameImpl implements MovieFrame, Externalizable {
     private File file;
     MovieFrameImpl()
     {
-
     }
 
     MovieFrameImpl(Image img, File file)

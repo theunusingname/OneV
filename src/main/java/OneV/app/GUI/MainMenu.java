@@ -12,6 +12,7 @@ public class MainMenu extends JMenuBar {
     JMenu file=new JMenu("File");
     JMenuItem saveItem=new JMenuItem("Save");
     JMenuItem loadItem=new JMenuItem("Load");
+    JMenuItem loadProjItem=new JMenuItem("LoadProject");
 
     MainMenu(ActionListener parent)
     {
@@ -19,9 +20,11 @@ public class MainMenu extends JMenuBar {
         add(file);
         file.add(saveItem);
         file.add(loadItem);
+        file.add(loadProjItem);
         this.parent=parent;
         saveItem.addActionListener(parent);
         loadItem.addActionListener(parent);
+        loadProjItem.addActionListener(parent);
         this.setVisible(true);
     }
 }
