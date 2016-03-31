@@ -41,8 +41,7 @@ public class DefaultMovieView extends Panel implements MovieView { // TODO: 21.0
     @Override
     public void showFrame(Image img) {
         imgBuffer=CutLoaderImpl.toBufferedImage(img.getScaledInstance(INIT_WIDTH,INIT_HEIGHT,Image.SCALE_SMOOTH));
-
-        this.repaint();
+        this.paint(this.getGraphics());
         System.out.println(img.toString());
     }
 

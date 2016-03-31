@@ -51,14 +51,24 @@ public class CutLoaderImpl implements CutLoader {
 //            }
         }
         Stream<MovieFrame> frameStream=frames.stream();
-        frameStream.parallel().forEachOrdered(frame ->{
+        System.out.println(Thread.currentThread().getName());
+        frameStream.parallel().forEach(frame ->{
             try {
-                System.out.println("Loading:"+frame.getFile());
+                System.out.println("Loading:"+frame.getFile()+Thread.currentThread().getName());
                 frame.setFrame(ImageIO.read(frame.getFile()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } );
+
+        frames.stream().parallel().sorted((a,b)->{
+            long la=a.getFile().lastModified();
+            long lb=b.getFile().lastModified();
+            if(la>=lb)
+                return 1;
+            else
+            return -1;
+            });
 //        CountDownLatch latch=new CountDownLatch(files.length);
         
         
