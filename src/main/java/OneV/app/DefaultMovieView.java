@@ -41,9 +41,8 @@ public class DefaultMovieView extends Panel implements MovieView { // TODO: 21.0
     @Override
     public void showFrame(Image img) {
         imgBuffer=img;
-
-        this.repaint();
-        System.out.println(img.toString());
+        this.paint(this.getGraphics());
+        //System.out.println(img.toString());
     }
 
     @Override
