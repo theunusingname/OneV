@@ -23,6 +23,11 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
         return currentPosition;
     }
 
+    public ArrayList<FramesCut> getContainersList()
+    {
+        return new ArrayList<FramesCut>(containers);
+    }
+
     @Override
     public void addContainers(Collection<FramesCut> cuts) {
         for (FramesCut cut: cuts) {

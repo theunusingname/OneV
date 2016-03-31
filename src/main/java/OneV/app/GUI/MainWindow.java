@@ -29,7 +29,7 @@ public class MainWindow implements ActionListener {
     {
         moviePreViewPanel=new MoviePreViewPanel(this);
         driver=new TimeLineDriverImpl(mainTimeLine,moviePreViewPanel.movieView);
-        loader=new CutLoaderImpl(640,480);
+        loader=new CutLoaderImpl(320,240);
         timeLinePanel=new TimeLinePanel(this);
         toolbarPanel =new ToolbarPanel(this);
         mainMenubar=new MainMenu(this);
@@ -53,7 +53,7 @@ public class MainWindow implements ActionListener {
             case "load":
                 mainTimeLine.addContainer( loader.getCutWithDialog());
                 break;
-            case "start": driver.play(3);
+            case "start": driver.play(5);
                 break;
             case "stop": driver.stop();
                 break;
