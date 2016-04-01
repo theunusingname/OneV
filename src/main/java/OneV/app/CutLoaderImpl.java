@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.RunnableFuture;
+import java.util.stream.*;
 
 /**
  * Created by Константин on 12.03.2016.
@@ -24,6 +25,7 @@ public class CutLoaderImpl implements CutLoader {
     private int scaleHint;
     private boolean inLoading;
     private boolean needAwaitLoading;
+    private MediaTracker tracker;
     Thread tr;
 
 
@@ -33,47 +35,76 @@ public class CutLoaderImpl implements CutLoader {
         needAwaitLoading=true;
         this.width=width;
         this.height=height;
-        scaleHint=Image.SCALE_FAST;
+        scaleHint=Image.SCALE_SMOOTH;
     }
 
     @Override
     public FramesCut getCut(File[] files)  {
         ArrayList<MovieFrame> frames=new ArrayList<>();
-        CountDownLatch latch=new CountDownLatch(files.length);
+        for (File file: files) {
+//            if(file.isFile()&&
+//                    file.toString().toLowerCase().endsWith(".jpeg")&&
+//                    file.toString().toLowerCase().endsWith(".jpg"))
+//            {
+                frames.add(new MovieFrameImpl(null,file));
 
-        tr=new Thread(()-> {
-            synchronized (frames){
-            inLoading=true;
-            for (File file : imageFilesArray) {
-                try {
-                    Image img = ImageIO.read(file);
-                    if (img == null) {
-                        latch.countDown();
-                        continue;
-                    } else {
-                        System.out.println("Loading:" + file.toString());
-                        MovieFrame frame = new MovieFrameImpl(toBufferedImage(img.getScaledInstance(width, height, scaleHint)), file);
-                        frames.add(frame);
-                        latch.countDown();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-                System.out.println("loading finished");
-                inLoading=false;
-
-        }});
-        tr.start();
-
-        if(needAwaitLoading) {
+//            }
+        }
+        Stream<MovieFrame> frameStream=frames.stream();
+        System.out.println(Thread.currentThread().getName());
+        frameStream.parallel().forEach(frame ->{
             try {
-                latch.await();
-            } catch (InterruptedException e) {
+                System.out.println("Loading:"+frame.getFile()+Thread.currentThread().getName());
+                frame.setFrame(ImageIO.read(frame.getFile()));
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        } );
+
+        frames.stream().parallel().sorted((a,b)->{
+            long la=a.getFile().lastModified();
+            long lb=b.getFile().lastModified();
+            if(la>=lb)
+                return 1;
+            else
+            return -1;
+            });
+//        CountDownLatch latch=new CountDownLatch(files.length);
+        
+        
+//        tr=new Thread(()-> {
+//            synchronized (frames){
+//            inLoading=true;
+//            for (File file : imageFilesArray) {
+//                try {
+//                    Image img = ImageIO.read(file);
+//                    if (img == null) {
+//                        latch.countDown();
+//                        continue;
+//                    } else {
+//                        System.out.println("Loading:" + file.toString());
+//                        MovieFrame frame = new MovieFrameImpl(toBufferedImage(img.getScaledInstance(width, height, scaleHint)), file);
+//                        frames.add(frame);
+//                        latch.countDown();
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//                System.out.println("loading finished");
+//                inLoading=false;
+//
+//        }});
+//        tr.start();
+//
+//        if(needAwaitLoading) {
+//            try {
+//                latch.await();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         return new FramesCutImpl(frames);
     }
