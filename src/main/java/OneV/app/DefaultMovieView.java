@@ -1,6 +1,6 @@
 package OneV.app;
 
-import OneV.app.old.RawContainer;
+
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -46,7 +46,7 @@ public class DefaultMovieView extends Panel implements MovieView { // TODO: 21.0
     }
 
     @Override
-    public void showFrame(RawContainer cont, int pos) {
+    public void showFrame(FramesCut cont, int pos) {
 
     }
 }

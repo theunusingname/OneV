@@ -10,21 +10,24 @@ import java.awt.*;
 /**
  * Created by Константин on 31.03.2016.
  */
-public class DefaultProgressBar extends JFrame implements ChangeListener {
+public class ProgressWidget extends JFrame implements ChangeListener {
     JProgressBar progressBar;
     int min;
     int max;
     int currentProgres;
-    boolean interuptable;
+    boolean interuptable; // TODO: 01.04.2016
     JButton interuptbutton;
-    public DefaultProgressBar(int min,int max,String name)
+    JLabel textInfo;
+    public ProgressWidget(int min, int max, String name)
     {
         super(name);
         currentProgres=min;
         this.min=min;
         this.max=max;
         progressBar=new JProgressBar(JProgressBar.HORIZONTAL,min,max);
+        textInfo=new JLabel();
         setLayout(new FlowLayout(FlowLayout.CENTER));
+        add(textInfo);
         add(progressBar);
         progressBar.setVisible(true);
         progressBar.addChangeListener(this);
@@ -40,11 +43,17 @@ public class DefaultProgressBar extends JFrame implements ChangeListener {
         repaint();
     }
 
-    public void incrementProgress(int incrementor)
+    public void incrementProgress(int incrementer)
     {
-        currentProgres+=incrementor;
+        currentProgres+=incrementer;
         progressBar.setValue(currentProgres);
         repaint();
+    }
+
+    public synchronized void setTextInfo(String text)
+    {
+        textInfo.setText(text);
+        textInfo.setVisible(true);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package OneV.app;
 
-import OneV.app.old.RawContainer;
+
 
 import java.awt.*;
 
@@ -11,6 +11,6 @@ import java.awt.*;
 public interface MovieView {
 
     void  showFrame(Image img);
-    void showFrame(RawContainer cont, int pos);
+    void showFrame(FramesCut cont, int pos);
 
 }

@@ -1,22 +1,15 @@
 package OneV.app;
 
-import OneV.app.GUI.DefaultProgressBar;
-import com.sun.glass.ui.Size;
-import sun.util.calendar.BaseCalendar;
+import OneV.app.GUI.ProgressWidget;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.RunnableFuture;
 import java.util.stream.*;
 
 /**
@@ -56,7 +49,7 @@ public class CutLoaderImpl implements CutLoader {
             frames.add(new MovieFrameImpl(null, file));
 //            }
         }
-        DefaultProgressBar progressBar=new DefaultProgressBar(0,frames.size(),"Loading images");
+        ProgressWidget progressBar=new ProgressWidget(0,frames.size(),"Loading images");
         tr=new Thread(()-> {
             Stream<MovieFrame> frameStream = frames.stream();
             System.out.println(Thread.currentThread().getName());
@@ -65,7 +58,7 @@ public class CutLoaderImpl implements CutLoader {
             long timer = date.getTime();
             frameStream.parallel().forEach(frame -> {
                 try {
-                    System.out.println("Loading:" + frame.getFile() + Thread.currentThread().getName());
+                    progressBar.setTextInfo("Loading:" + frame.getFile() +" "+ Thread.currentThread().getName());
                     frame.setFrame(toBufferedImage(ImageIO.read(frame.getFile()).getScaledInstance(width, height, scaleHint)));
                     progressBar.incrementProgress(1);
                 } catch (IOException e) {
