@@ -1,14 +1,20 @@
 package OneV.app;
 
+import OneV.app.GUI.DefaultProgressBar;
 import com.sun.glass.ui.Size;
+import sun.util.calendar.BaseCalendar;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.RunnableFuture;
 import java.util.stream.*;
@@ -25,14 +31,13 @@ public class CutLoaderImpl implements CutLoader {
     private int scaleHint;
     private boolean inLoading;
     private boolean needAwaitLoading;
-    private MediaTracker tracker;
     Thread tr;
 
 
 
     public CutLoaderImpl(int width, int height)
     {
-        needAwaitLoading=true;
+        needAwaitLoading=false;
         this.width=width;
         this.height=height;
         scaleHint=Image.SCALE_SMOOTH;
@@ -41,70 +46,54 @@ public class CutLoaderImpl implements CutLoader {
     @Override
     public FramesCut getCut(File[] files)  {
         ArrayList<MovieFrame> frames=new ArrayList<>();
-        for (File file: files) {
+
+        inLoading=true;
+        for (File file : files) {
 //            if(file.isFile()&&
 //                    file.toString().toLowerCase().endsWith(".jpeg")&&
 //                    file.toString().toLowerCase().endsWith(".jpg"))
 //            {
-                frames.add(new MovieFrameImpl(null,file));
-
+            frames.add(new MovieFrameImpl(null, file));
 //            }
         }
-        Stream<MovieFrame> frameStream=frames.stream();
-        System.out.println(Thread.currentThread().getName());
-        frameStream.parallel().forEach(frame ->{
+        DefaultProgressBar progressBar=new DefaultProgressBar(0,frames.size(),"Loading images");
+        tr=new Thread(()-> {
+            Stream<MovieFrame> frameStream = frames.stream();
+            System.out.println(Thread.currentThread().getName());
+            Date date = new Date();
+            //start loading
+            long timer = date.getTime();
+            frameStream.parallel().forEach(frame -> {
+                try {
+                    System.out.println("Loading:" + frame.getFile() + Thread.currentThread().getName());
+                    frame.setFrame(toBufferedImage(ImageIO.read(frame.getFile()).getScaledInstance(width, height, scaleHint)));
+                    progressBar.incrementProgress(1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            //sorting by date
+            frames.stream().parallel().sorted((a, b) -> {
+                long la = a.getFile().lastModified();
+                long lb = b.getFile().lastModified();
+                if (la >= lb)
+                    return 1;
+                else
+                    return -1;
+            });
+            System.out.println("Loading finished " + frames.size() + " files, in " + (new Date().getTime() - timer) + " mseconds");
+            progressBar.dispose();
+            inLoading = false;
+        });
+        tr.start();
+
+        if(needAwaitLoading) {
             try {
-                System.out.println("Loading:"+frame.getFile()+Thread.currentThread().getName());
-                frame.setFrame(ImageIO.read(frame.getFile()));
-            } catch (IOException e) {
+                tr.join();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } );
-
-        frames.stream().parallel().sorted((a,b)->{
-            long la=a.getFile().lastModified();
-            long lb=b.getFile().lastModified();
-            if(la>=lb)
-                return 1;
-            else
-            return -1;
-            });
-//        CountDownLatch latch=new CountDownLatch(files.length);
-        
-        
-//        tr=new Thread(()-> {
-//            synchronized (frames){
-//            inLoading=true;
-//            for (File file : imageFilesArray) {
-//                try {
-//                    Image img = ImageIO.read(file);
-//                    if (img == null) {
-//                        latch.countDown();
-//                        continue;
-//                    } else {
-//                        System.out.println("Loading:" + file.toString());
-//                        MovieFrame frame = new MovieFrameImpl(toBufferedImage(img.getScaledInstance(width, height, scaleHint)), file);
-//                        frames.add(frame);
-//                        latch.countDown();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//                System.out.println("loading finished");
-//                inLoading=false;
-//
-//        }});
-//        tr.start();
-//
-//        if(needAwaitLoading) {
-//            try {
-//                latch.await();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        }
 
         return new FramesCutImpl(frames);
     }
@@ -127,7 +116,7 @@ public class CutLoaderImpl implements CutLoader {
 
     @Override
     public void addFrame(FramesCut container, Path path) {
-        //// TODO: 12.03.2016  
+        //// TODO: 12.03.2016
     }
 
     public static BufferedImage toBufferedImage(Image img)

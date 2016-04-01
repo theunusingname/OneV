@@ -53,7 +53,7 @@ public class MainWindow implements ActionListener {
             case "load":
                 mainTimeLine.addContainer( loader.getCutWithDialog());
                 break;
-            case "start": driver.play(5);
+            case "start": driver.play(30);
                 break;
             case "stop": driver.stop();
                 break;
