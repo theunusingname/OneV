@@ -30,6 +30,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         currentSliderPos=timeLinePositionToInt(timeline,timeline.getCurrentPosition());
         slider=new JSlider();
         slider.setName("init");
+        stopFlag=true;
     }
 
 
@@ -47,9 +48,9 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
                 {
                     currentSliderPos=timeLinePositionToInt(timeLine,new PositionInTimeLine(i,j));
                     slider.setValue(currentSliderPos);
-                    System.out.println(currentSliderPos);
-                    slider.repaint();
+                    //slider.repaint();
                     View.showFrame(currentCont.getFrame(j));
+                    timeLine.setPosition(intToPosition(timeLine,currentSliderPos));
 
                     try {
                         Thread.sleep(1000/fps);
@@ -80,12 +81,12 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         if(timeline==null || pos==null)
             return 0;
 
-        int result;
+        int result=0;
         for(int i=0;i<pos.currentContainer;i++)
         {
-            result=+timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).size();
+            result+=timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).size();
         }
-        result=+pos.currentFrameCount;
+        result+=pos.currentFrameCount;
         return result;
     }
 
@@ -98,12 +99,12 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
             System.out.println("cant convert, invalid timeline");
             return null;
         }
-        int cut=0;
+        int cut=-1;
         int frame;
         try {
             do {
-                pos = -timeLine.getContainerOnPosition(new PositionInTimeLine(cut, 0)).size();
                 cut++;
+                pos -= timeLine.getContainerOnPosition(new PositionInTimeLine(cut, 0)).size();
             } while (pos > 0);
         }catch (NullPointerException e)
         {
@@ -126,13 +127,14 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         {
             return null;
         }
+        maxSlider=0;
         for(int i=0;i<timeLine.getContainersSize();i++)
         {
             FramesCut currentCont= timeLine.getContainerOnPosition(new PositionInTimeLine(i,0));
-            maxSlider=+currentCont.size();
+            maxSlider+=currentCont.size()-1;
         }
 
-        if(slider==null) {
+        if(slider.getName()!="validSlider") {
             slider = new JSlider(0, maxSlider);
             slider.addChangeListener(this);
             slider.setName("validSlider");
@@ -155,7 +157,14 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        System.out.println(e.toString());
+
+       if( e.getSource()==slider&&stopFlag==true)
+       {
+           stop();
+           timeLine.setPosition(intToPosition(timeLine,slider.getValue()));
+           View.showFrame(timeLine.getCurrentFrame());
+
+       };
     }
 
 
