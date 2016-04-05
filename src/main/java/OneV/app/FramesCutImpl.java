@@ -3,6 +3,8 @@ package OneV.app;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -74,5 +76,10 @@ public class FramesCutImpl implements FramesCut, Serializable {
         ArrayList<MovieFrame> rightPart = new ArrayList<>(frames.subList(pos,frames.size()));
         frames.removeAll(rightPart);
         return new FramesCutImpl(rightPart);
+    }
+
+    @Override
+    public Collection<File> getAllFiles() {
+       return frames.stream().map((a)->a.getFile()).collect(Collectors.toList());
     }
 }

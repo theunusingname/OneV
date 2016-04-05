@@ -16,6 +16,7 @@ public class MainMenu extends JMenuBar {
     JMenu export= new JMenu("Export");
     JMenuItem exportToGIF=new JMenuItem("Export to GIF");
 
+
     MainMenu(ActionListener parent)
     {
         super();

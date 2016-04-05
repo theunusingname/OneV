@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * Created by kkuznetsov on 11.03.2016.
@@ -168,6 +169,19 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     public void setDriver(TimeLineDriver currentDriver) {
         this.currentDriver = currentDriver;
     }
+
+    @Override
+    public Stream<File> getFileStream() {
+       if(containers.size()==0)
+           return null;
+
+        ArrayList<File> listForResult=new ArrayList<>();
+        for (FramesCut cut: containers) {
+            listForResult.addAll(cut.getAllFiles());
+        }
+        return listForResult.stream();
+    }
+
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {

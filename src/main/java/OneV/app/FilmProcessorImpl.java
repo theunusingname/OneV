@@ -42,18 +42,21 @@ public class FilmProcessorImpl implements FilmProcessor {
             }
         });
         saveFileDialog.setVisible(true);
-
+        //init writer with first image
         ImageOutputStream output = new FileImageOutputStream(saveFileDialog.getFiles()[0]);
         BufferedImage firstImage =
                 CutLoaderImpl.toBufferedImage (
                         (timeline.getContainerOnPosition(new PositionInTimeLine(0, 0)).getFrame(0).getScaledInstance(width,height,Image.SCALE_SMOOTH)));
         GifSequenceWriter writer = new GifSequenceWriter(output, firstImage.getType(), 1, false);
         writer.writeToSequence(firstImage);
-        PositionInTimeLine position = timeline.getCurrentPosition();
+
+        PositionInTimeLine position = new PositionInTimeLine(0,0);
+        timeline.setPosition(position);
         int cuts = timeline.getCutsSize();
         int maxProgress=timeline.getOvervalSize();
         ProgressWidget progressWidget=new ProgressWidget(0,maxProgress,"Save");
         progressWidget.setVisible(true);
+
         System.out.println("start");
         for (int i = position.currentContainer; i < cuts; i++) {
             FramesCut currentCont = timeline.getContainerOnPosition(position);
@@ -64,9 +67,9 @@ public class FilmProcessorImpl implements FilmProcessor {
             }
             progressWidget.setVisible(false);
             System.out.println("finish");
+
             writer.close();
             output.close();
-
         }
 
 

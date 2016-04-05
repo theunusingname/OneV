@@ -29,17 +29,16 @@ public class ProgressWidget extends JFrame implements ChangeListener {
         setLayout(new FlowLayout(FlowLayout.CENTER));
         add(textInfo);
         add(progressBar);
-        progressBar.setVisible(true);
         progressBar.addChangeListener(this);
         setSize(300,150);
         progressBar.setSize(getSize());
         setVisible(true);
     }
 
-    public void setProgress(int currentProgres)
+    public void setProgress(int currentProgress)
     {
-        this.currentProgres=currentProgres;
-        progressBar.setValue(currentProgres);
+        this.currentProgres=currentProgress;
+        progressBar.setValue(currentProgress);
         repaint();
     }
 

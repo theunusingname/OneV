@@ -3,6 +3,7 @@ package OneV.app;
 import java.awt.*;
 import java.io.File;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * Created by kkuznetsov on 11.03.2016.
@@ -24,4 +25,5 @@ public interface CutsTimeline {
     int getCutsSize();
     int getOvervalSize();
     void setDriver(TimeLineDriver currentDriver);
+    Stream<File> getFileStream();
 }
