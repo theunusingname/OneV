@@ -13,6 +13,8 @@ public class MainMenu extends JMenuBar {
     JMenuItem saveItem=new JMenuItem("Save");
     JMenuItem loadItem=new JMenuItem("Load");
     JMenuItem loadProjItem=new JMenuItem("LoadProject");
+    JMenu export= new JMenu("Export");
+    JMenuItem exportToGIF=new JMenuItem("Export to GIF");
 
     MainMenu(ActionListener parent)
     {
@@ -21,10 +23,13 @@ public class MainMenu extends JMenuBar {
         file.add(saveItem);
         file.add(loadItem);
         file.add(loadProjItem);
+        add(export);
+        export.add(exportToGIF);
         this.parent=parent;
         saveItem.addActionListener(parent);
         loadItem.addActionListener(parent);
         loadProjItem.addActionListener(parent);
+        exportToGIF.addActionListener(parent);
         this.setVisible(true);
     }
 }

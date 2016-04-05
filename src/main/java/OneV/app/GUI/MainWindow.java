@@ -1,9 +1,6 @@
 package OneV.app.GUI;
 
-import OneV.app.CutLoaderImpl;
-import OneV.app.CutsTimelineImpl;
-import OneV.app.SaveLoadTimeLine;
-import OneV.app.TimeLineDriverImpl;
+import OneV.app.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,6 +77,15 @@ public class MainWindow implements ActionListener {
 
                 System.out.println("loading finished");
                 break;
+            case "export to gif":
+            {
+                FilmProcessorImpl processor=new FilmProcessorImpl(mainTimeLine);
+                try {
+                    processor.saveGif();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
             default:
                 System.out.println("Unknown command " +e.getActionCommand());
 
