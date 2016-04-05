@@ -45,15 +45,16 @@ public class FilmProcessorImpl implements FilmProcessor {
 
         ImageOutputStream output = new FileImageOutputStream(saveFileDialog.getFiles()[0]);
         BufferedImage firstImage =
-                CutLoaderImpl.toBufferedImage ((BufferedImage)
+                CutLoaderImpl.toBufferedImage (
                         (timeline.getContainerOnPosition(new PositionInTimeLine(0, 0)).getFrame(0).getScaledInstance(width,height,Image.SCALE_SMOOTH)));
         GifSequenceWriter writer = new GifSequenceWriter(output, firstImage.getType(), 1, false);
         writer.writeToSequence(firstImage);
-
         PositionInTimeLine position = timeline.getCurrentPosition();
         int cuts = timeline.getCutsSize();
         int maxProgress=timeline.getOvervalSize();
         ProgressWidget progressWidget=new ProgressWidget(0,maxProgress,"Save");
+        progressWidget.setVisible(true);
+        System.out.println("start");
         for (int i = position.currentContainer; i < cuts; i++) {
             FramesCut currentCont = timeline.getContainerOnPosition(position);
             for (int j = position.currentFrameCount; j < currentCont.size(); j++) {
@@ -61,6 +62,7 @@ public class FilmProcessorImpl implements FilmProcessor {
                 writer.writeToSequence(nextImage);
                 progressWidget.incrementProgress(1);
             }
+            progressWidget.setVisible(false);
             System.out.println("finish");
             writer.close();
             output.close();
