@@ -5,6 +5,7 @@ import OneV.app.DefaultMovieView;
 
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,12 +15,13 @@ import java.awt.event.ActionListener;
  */
 public class MoviePreViewPanel extends JPanel implements ActionListener {
     protected DefaultMovieView movieView;
-    ActionListener parent;
+    MainWindow parent;
     JButton start=new JButton("start");
     JButton stop=new JButton("stop");
+    JSpinner fps=new JSpinner();
     JPanel buttonPanel=new JPanel(new FlowLayout());
 
-    MoviePreViewPanel(ActionListener parent)
+    MoviePreViewPanel(MainWindow parent)
     {
         super();
         setLayout(new BorderLayout());
@@ -28,8 +30,12 @@ public class MoviePreViewPanel extends JPanel implements ActionListener {
         add(movieView,BorderLayout.CENTER);
         start.addActionListener(parent);
         stop.addActionListener(parent);
+        fps.addChangeListener(parent);
+        fps.setName("fps");
+        fps.setValue(30);
         buttonPanel.add(start);
         buttonPanel.add(stop);
+        buttonPanel.add(fps);
         add(buttonPanel,BorderLayout.SOUTH);
         setSize(movieView.getSize());
         setBorder(BorderFactory.createLineBorder(Color.black,1));

@@ -3,16 +3,17 @@ package OneV.app.GUI;
 import OneV.app.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by kkuznetsov on 21.03.2016.
  */
-public class MainWindow implements ActionListener {
+public class MainWindow implements ActionListener,ChangeListener {
     private CutLoaderImpl loader;
     private ToolbarPanel toolbarPanel;
     private MoviePreViewPanel moviePreViewPanel;
@@ -20,7 +21,7 @@ public class MainWindow implements ActionListener {
     private JFrame frame;
     private JMenuBar mainMenubar;
     protected CutsTimelineImpl mainTimeLine=new CutsTimelineImpl();
-    TimeLineDriverImpl driver;
+    protected TimeLineDriverImpl driver;
 
     public MainWindow()
     {
@@ -56,7 +57,7 @@ public class MainWindow implements ActionListener {
                 break;
             case "save":
                 try {
-                    if(mainTimeLine.getContainersSize()>0) {
+                    if(mainTimeLine.getCutsSize()>0) {
                         SaveLoadTimeLine.save(mainTimeLine);
                         break;
                     }
@@ -64,6 +65,7 @@ public class MainWindow implements ActionListener {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                break;
 
             case "loadproject":
                 try {
@@ -80,15 +82,27 @@ public class MainWindow implements ActionListener {
             case "export to gif":
             {
                 FilmProcessorImpl processor=new FilmProcessorImpl(mainTimeLine);
+                processor.setResultSize(640,480);
                 try {
                     processor.saveGif();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
             }
+            break;
             default:
-                System.out.println("Unknown command " +e.getActionCommand());
+                System.out.println("Unknown command: " +e.getActionCommand());
 
+        }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        Component component=(Component) e.getSource();
+        String name=component.getName();
+        if(name.equalsIgnoreCase("fps")&&driver!=null)
+        {
+           driver.setFps ((Integer)((JSpinner) component).getValue());
         }
     }
 }

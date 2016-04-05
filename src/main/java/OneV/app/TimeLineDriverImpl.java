@@ -5,8 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.io.Serializable;
-import java.util.Date;
+import java.awt.*;
 
 /**
  * Created by Константин on 28.02.2016.
@@ -21,6 +20,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
     volatile boolean stopFlag;
     volatile int currentSliderPos;
     int maxSlider;
+    int fps=30;
 
     public TimeLineDriverImpl(CutsTimeline timeline, MovieView view)
     {
@@ -35,12 +35,12 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
 
     public  void play(int fps) {
-
+        this.fps=fps;
         tr=new Thread(()->{
         synchronized (View)
         {
             PositionInTimeLine position= timeLine.getCurrentPosition();
-            int cuts= timeLine.getContainersSize();
+            int cuts= timeLine.getCutsSize();
             for(int i=position.currentContainer; i<cuts; i++)
             {
                 FramesCut currentCont= timeLine.getContainerOnPosition(position);
@@ -53,7 +53,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
                     timeLine.setPosition(intToPosition(timeLine,currentSliderPos));
 
                     try {
-                        Thread.sleep(1000/fps);
+                        Thread.sleep(1000/this.fps);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -94,7 +94,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
     static public PositionInTimeLine intToPosition(CutsTimeline timeLine, int pos)
     {
         PositionInTimeLine result;
-        if (timeLine==null||timeLine.getContainersSize()==0)
+        if (timeLine==null||timeLine.getCutsSize()==0)
         {
             System.out.println("cant convert, invalid timeline");
             return null;
@@ -128,7 +128,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
             return null;
         }
         maxSlider=0;
-        for(int i=0;i<timeLine.getContainersSize();i++)
+        for(int i = 0; i<timeLine.getCutsSize(); i++)
         {
             FramesCut currentCont= timeLine.getContainerOnPosition(new PositionInTimeLine(i,0));
             maxSlider+=currentCont.size()-1;
@@ -155,9 +155,15 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         }
     }
 
+    public void setFps(int fps) {
+        this.fps = fps;
+    }
+
     @Override
     public void stateChanged(ChangeEvent e) {
 
+        Component component=(Component) e.getSource();
+        String name=component.getName();
        if( e.getSource()==slider&&stopFlag==true)
        {
            stop();

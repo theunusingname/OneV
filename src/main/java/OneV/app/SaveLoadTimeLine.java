@@ -16,8 +16,8 @@ public class SaveLoadTimeLine {
         File output=new File( dialog.getDirectory()+dialog.getFile()+".ovp");
         FileOutputStream fos=new FileOutputStream(output);
         ObjectOutputStream oos =new ObjectOutputStream(fos);
-        oos.writeInt(timeline.getContainersSize());
-        for (int i=timeline.getContainersSize();i>0;i--)
+        oos.writeInt(timeline.getCutsSize());
+        for (int i = timeline.getCutsSize(); i>0; i--)
         {
             oos.writeObject( timeline.getContainerOnPosition(new PositionInTimeLine(i-1,0)));
         }

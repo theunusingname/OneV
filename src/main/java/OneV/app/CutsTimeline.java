@@ -21,6 +21,7 @@ public interface CutsTimeline {
     Image getCurrentFrame();
     File getCurrentFile();
     int getCurrentFrameIndex();
-    int getContainersSize();
+    int getCutsSize();
+    int getOvervalSize();
     void setDriver(TimeLineDriver currentDriver);
 }

@@ -3,6 +3,7 @@ package OneV.app;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 /**
  * Created by kkuznetsov on 11.03.2016.
@@ -21,6 +22,18 @@ public class FramesCutImpl implements FramesCut, Serializable {
     {
         frames= new ArrayList<>(initList);
         lastGeted=-1;
+    }
+
+    Stream<File> getFileStream()
+    {
+        if(frames.size()==0)
+        {
+            return null;
+        }
+        else
+        {
+           return frames.stream().map((a)-> a.getFile());
+        }
     }
 
     @Override

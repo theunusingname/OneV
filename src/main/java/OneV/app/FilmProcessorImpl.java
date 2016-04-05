@@ -1,13 +1,13 @@
 package OneV.app;
 
-import com.sun.imageio.plugins.gif.GIFImageWriter;
-import com.sun.imageio.plugins.gif.GIFImageWriterSpi;
+import OneV.app.GUI.ProgressWidget;
 
+import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -17,9 +17,18 @@ import java.io.IOException;
  */
 public class FilmProcessorImpl implements FilmProcessor {
     CutsTimeline timeline;
+    int width=320;
+    int height=240;
+
 
     public FilmProcessorImpl(CutsTimeline tl) {
         timeline = tl;
+    }
+
+    public void setResultSize(int width,int height)
+    {
+        this.width=width;
+        this.height=height;
     }
 
     @Override
@@ -35,18 +44,24 @@ public class FilmProcessorImpl implements FilmProcessor {
         saveFileDialog.setVisible(true);
 
         ImageOutputStream output = new FileImageOutputStream(saveFileDialog.getFiles()[0]);
-        BufferedImage firstImage = (BufferedImage) timeline.getContainerOnPosition(new PositionInTimeLine(0, 0)).getFrame(0);
+        BufferedImage firstImage =
+                CutLoaderImpl.toBufferedImage ((BufferedImage)
+                        (timeline.getContainerOnPosition(new PositionInTimeLine(0, 0)).getFrame(0).getScaledInstance(width,height,Image.SCALE_SMOOTH)));
         GifSequenceWriter writer = new GifSequenceWriter(output, firstImage.getType(), 1, false);
         writer.writeToSequence(firstImage);
 
         PositionInTimeLine position = timeline.getCurrentPosition();
-        int cuts = timeline.getContainersSize();
+        int cuts = timeline.getCutsSize();
+        int maxProgress=timeline.getOvervalSize();
+        ProgressWidget progressWidget=new ProgressWidget(0,maxProgress,"Save");
         for (int i = position.currentContainer; i < cuts; i++) {
             FramesCut currentCont = timeline.getContainerOnPosition(position);
             for (int j = position.currentFrameCount; j < currentCont.size(); j++) {
-
-                writer.writeToSequence((BufferedImage)currentCont.getFrame(j));
+                BufferedImage nextImage=CutLoaderImpl.toBufferedImage (ImageIO.read(currentCont.getFrameFile(j)).getScaledInstance(width,height,Image.SCALE_SMOOTH));
+                writer.writeToSequence(nextImage);
+                progressWidget.incrementProgress(1);
             }
+            System.out.println("finish");
             writer.close();
             output.close();
 
