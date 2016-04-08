@@ -15,19 +15,16 @@ public class TimeLineSlider extends JSlider implements ChangeListener {
 
     CutsTimeline timeline;
 
-    public TimeLineSlider(int min, int max)
-    {
-        super(min,max);
-    }
+
 
     public TimeLineSlider()
     {
         super();
     }
 
-    TimeLineSlider(MainWindow parent)
+    TimeLineSlider(MainWindow parent,int min, int max)
     {
-        super();
+        super(min,max);
         this.parent=parent;
         addChangeListener(this);
     }

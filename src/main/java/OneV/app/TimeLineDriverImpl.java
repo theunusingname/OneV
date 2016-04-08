@@ -142,7 +142,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         return false;
     }
 
-    public JSlider getSlider()
+    public TimeLineSlider getSlider()
     {
         if(timeLine==null)
         {
