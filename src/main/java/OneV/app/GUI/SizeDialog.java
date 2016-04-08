@@ -20,8 +20,9 @@ public class SizeDialog extends JDialog implements ActionListener{
     JButton okButton=new JButton("OK");
 
 
-    SizeDialog(Frame owner, String text) {
-        super(owner, text);
+    public SizeDialog(Frame owner, String text) {
+        super(owner,text,true);
+        //super(owner, text,true);
         this.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         this.setLayout(new FlowLayout());
         widthField.setPreferredSize(new Dimension(200,15));
@@ -38,6 +39,7 @@ public class SizeDialog extends JDialog implements ActionListener{
         add(widthPanel);
         add(heightPanel);
         add(okButton);
+        okButton.addActionListener(this);
         setSize(300, 150);
         setVisible(true);
     }
@@ -66,6 +68,7 @@ public class SizeDialog extends JDialog implements ActionListener{
             case "OK":
             {
                 parseValues();
+                dispose();
             }
         }
     }
@@ -75,6 +78,7 @@ public class SizeDialog extends JDialog implements ActionListener{
             Frame frame=new Frame("fr");
             frame.setVisible(true);
             SizeDialog d=new SizeDialog(frame,"sds");
+            System.out.println(d.getHeightValue());
         });
 
     }

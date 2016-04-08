@@ -157,7 +157,7 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     }
 
     @Override
-    public int getOvervalSize() {
+    public int getOverallSize() {
         int result=0;
         for (FramesCut cut: containers) {
             result+=cut.size();

@@ -53,6 +53,8 @@ public class MainWindow implements ActionListener,ChangeListener {
                 break;
             case "start": driver.play(30);
                 break;
+            case  "pause": driver.pause();
+                break;
             case "stop": driver.stop();
                 break;
             case "save":
@@ -81,8 +83,9 @@ public class MainWindow implements ActionListener,ChangeListener {
                 break;
             case "export to gif":
             {
+                SizeDialog sizeDialog= new SizeDialog(frame,"setSize");
                 FilmProcessorImpl processor=new FilmProcessorImpl(mainTimeLine);
-                processor.setResultSize(640,480);
+                processor.setResultSize(sizeDialog.getWidthValue(),sizeDialog.getHeightValue());
                 try {
                     processor.saveGif();
                 } catch (IOException e1) {

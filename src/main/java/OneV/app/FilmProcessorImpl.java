@@ -5,7 +5,6 @@ import OneV.app.GUI.ProgressWidget;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -43,7 +42,7 @@ public class FilmProcessorImpl implements FilmProcessor {
         });
         saveFileDialog.setVisible(true);
         //init writer with first image
-        ImageOutputStream output = new FileImageOutputStream(saveFileDialog.getFiles()[0]);
+        ImageOutputStream output = new FileImageOutputStream(new File(saveFileDialog.getDirectory()+saveFileDialog.getFile()+".gif"));
         BufferedImage firstImage =
                 CutLoaderImpl.toBufferedImage (
                         (timeline.getContainerOnPosition(new PositionInTimeLine(0, 0)).getFrame(0).getScaledInstance(width,height,Image.SCALE_SMOOTH)));
@@ -53,7 +52,7 @@ public class FilmProcessorImpl implements FilmProcessor {
         PositionInTimeLine position = new PositionInTimeLine(0,0);
         timeline.setPosition(position);
         int cuts = timeline.getCutsSize();
-        int maxProgress=timeline.getOvervalSize();
+        int maxProgress=timeline.getOverallSize();
         ProgressWidget progressWidget=new ProgressWidget(0,maxProgress,"Save");
         progressWidget.setVisible(true);
 

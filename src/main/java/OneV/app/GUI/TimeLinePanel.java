@@ -21,8 +21,9 @@ public class TimeLinePanel extends JPanel implements ChangeListener {
         this.parent=parent;
         timeLineSlider=parent.driver.getSlider();
         timeLineSlider.addChangeListener(this);
-        setBorder(BorderFactory.createLineBorder(Color.BLUE,3));
-        timeLineSlider.setBounds(0,0,getWidth(),getHeight());
+        setBorder(BorderFactory.createLineBorder(Color.BLUE,1));
+        setLayout(new FlowLayout(FlowLayout.CENTER));
+        timeLineSlider.setSize(new Dimension(this.getWidth(),15));
         add(timeLineSlider);
     }
 

@@ -23,7 +23,7 @@ public interface CutsTimeline {
     File getCurrentFile();
     int getCurrentFrameIndex();
     int getCutsSize();
-    int getOvervalSize();
+    int getOverallSize();
     void setDriver(TimeLineDriver currentDriver);
     Stream<File> getFileStream();
 }

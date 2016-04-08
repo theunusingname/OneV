@@ -18,6 +18,7 @@ public class MoviePreViewPanel extends JPanel implements ActionListener {
     MainWindow parent;
     JButton start=new JButton("start");
     JButton stop=new JButton("stop");
+    JButton pause=new JButton("pause");
     JSpinner fps=new JSpinner();
     JPanel buttonPanel=new JPanel(new FlowLayout());
 
@@ -29,11 +30,13 @@ public class MoviePreViewPanel extends JPanel implements ActionListener {
         movieView=new DefaultMovieView();
         add(movieView,BorderLayout.CENTER);
         start.addActionListener(parent);
+        pause.addActionListener(parent);
         stop.addActionListener(parent);
         fps.addChangeListener(parent);
         fps.setName("fps");
         fps.setValue(30);
         buttonPanel.add(start);
+        buttonPanel.add(pause);
         buttonPanel.add(stop);
         buttonPanel.add(fps);
         add(buttonPanel,BorderLayout.SOUTH);
