@@ -18,6 +18,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
     private Thread tr;
     private JSlider slider;
     volatile boolean stopFlag;
+    volatile boolean pauseFlag;
     volatile int currentSliderPos;
     int maxSlider;
     int fps=30;
@@ -48,7 +49,6 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
                 {
                     currentSliderPos=timeLinePositionToInt(timeLine,new PositionInTimeLine(i,j));
                     slider.setValue(currentSliderPos);
-                    //slider.repaint();
                     View.showFrame(currentCont.getFrame(j));
                     timeLine.setPosition(intToPosition(timeLine,currentSliderPos));
 
@@ -59,6 +59,13 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
                     }
                     if(stopFlag)
                         break;
+
+                    while (pauseFlag)
+                        try {
+                            wait(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                 }
                 if(stopFlag)
                     break;
@@ -74,9 +81,15 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
         stopFlag=true;
         tr=null;
+        timeLine.setPosition(new PositionInTimeLine(0,0));
     }
 
-    static public int timeLinePositionToInt(CutsTimeline timeline,PositionInTimeLine pos)//// TODO: 23.03.2016  
+    @Override
+    public void pause() {
+
+    }
+
+    static public int timeLinePositionToInt(CutsTimeline timeline,PositionInTimeLine pos)
     {
         if(timeline==null || pos==null)
             return 0;
