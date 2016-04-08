@@ -17,7 +17,7 @@ public class MainWindow implements ActionListener,ChangeListener {
     private CutLoaderImpl loader;
     private ToolbarPanel toolbarPanel;
     private MoviePreViewPanel moviePreViewPanel;
-    private TimeLinePanel timeLinePanel;
+    private TimeLineSlider timeLinePanel;
     private JFrame frame;
     private JMenuBar mainMenubar;
     protected CutsTimelineImpl mainTimeLine=new CutsTimelineImpl();
@@ -28,7 +28,7 @@ public class MainWindow implements ActionListener,ChangeListener {
         moviePreViewPanel=new MoviePreViewPanel(this);
         driver=new TimeLineDriverImpl(mainTimeLine,moviePreViewPanel.movieView);
         loader=new CutLoaderImpl(320,240);
-        timeLinePanel=new TimeLinePanel(this);
+        timeLinePanel=new TimeLineSlider(this);
         toolbarPanel =new ToolbarPanel(this);
         mainMenubar=new MainMenu(this);
         frame=new JFrame("OneV");

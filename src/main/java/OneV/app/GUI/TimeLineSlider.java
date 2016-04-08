@@ -10,27 +10,28 @@ import java.awt.*;
 /**
  * Created by kkuznetsov on 18.03.2016.
  */
-public class TimeLinePanel extends JPanel implements ChangeListener {
+public class TimeLineSlider extends JSlider implements ChangeListener {
     MainWindow parent;
-    JSlider timeLineSlider;
+
     CutsTimeline timeline;
 
-    TimeLinePanel(MainWindow parent)
+    public TimeLineSlider(int min, int max)
+    {
+        super(min,max);
+    }
+
+    public TimeLineSlider()
+    {
+        super();
+    }
+
+    TimeLineSlider(MainWindow parent)
     {
         super();
         this.parent=parent;
-        timeLineSlider=parent.driver.getSlider();
-        timeLineSlider.addChangeListener(this);
-        setBorder(BorderFactory.createLineBorder(Color.BLUE,1));
-        setLayout(new FlowLayout(FlowLayout.CENTER));
-        timeLineSlider.setSize(new Dimension(this.getWidth(),15));
-        add(timeLineSlider);
+        addChangeListener(this);
     }
 
-    public void setNewSlider(JSlider slider)
-    {
-        timeLineSlider=slider;
-    }
 
     public void paintComponent(Graphics g)
     {

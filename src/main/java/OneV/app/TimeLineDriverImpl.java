@@ -1,5 +1,6 @@
 package OneV.app;
 
+import OneV.app.GUI.TimeLineSlider;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
     private CutsTimeline timeLine;
     private MovieView View;
     private Thread tr;
-    private JSlider slider;
+    private TimeLineSlider slider;
     volatile boolean stopFlag;
     volatile boolean pauseFlag;
     volatile boolean inPlayingFlag;
@@ -30,8 +31,9 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         this.View=view;
         timeline.setDriver(this);
         currentSliderPos=timeLinePositionToInt(timeline,timeline.getCurrentPosition());
-        slider=new JSlider();
+        slider=new TimeLineSlider();
         slider.setName("init");
+        slider.disable();
         stopFlag=true;
     }
 
@@ -154,7 +156,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         }
 
         if(slider.getName()!="validSlider") {
-            slider = new JSlider(0, maxSlider);
+            slider = new TimeLineSlider(0, maxSlider);
             slider.addChangeListener(this);
             slider.setName("validSlider");
             slider.setExtent(1);
@@ -183,7 +185,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
         Component component=(Component) e.getSource();
         String name=component.getName();
-       if( e.getSource()==slider&&stopFlag==true)
+       if(slider.getName()=="validSlider"&&stopFlag==true)
        {
            pauseFlag=false;
            stopFlag=true;
