@@ -24,20 +24,20 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
         return currentPosition;
     }
 
-    public ArrayList<FramesCut> getContainersList()
+    public ArrayList<FramesCut> getCutsList()
     {
         return new ArrayList<FramesCut>(containers);
     }
 
     @Override
-    public void addContainers(Collection<FramesCut> cuts) {
+    public void addCuts(Collection<FramesCut> cuts) {
         for (FramesCut cut: cuts) {
-            this.addContainer(cut);
+            this.addCut(cut);
         }
     }
 
     @Override
-    public void addContainer(FramesCut cut) {
+    public void addCut(FramesCut cut) {
         containers.add(cut);
         if(currentDriver!=null) currentDriver.updateSlider();
     }
@@ -56,13 +56,13 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
 
     public void addBeforeCurrent(FramesCut cut)
     {
-        if (this.getCurrentContainerIndex()==0)
+        if (this.getCurrentCutIndex()==0)
         {
-            this.addContainer(cut);
+            this.addCut(cut);
         }
         else
         {
-            containers.add(this.getCurrentContainerIndex(),cut);
+            containers.add(this.getCurrentCutIndex(),cut);
         }
         if(currentDriver!=null) currentDriver.updateSlider();    }
 
@@ -90,24 +90,24 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
         {
             return false;
         }
-        FramesCut frontHalf= this.getCurrentContainer().cut(this.currentPosition.currentFrameCount);
-        this.addAfter(frontHalf,this.getCurrentContainerIndex());
+        FramesCut frontHalf= this.getCurrentCut().cut(this.currentPosition.currentFrameCount);
+        this.addAfter(frontHalf,this.getCurrentCutIndex());
         return true;
     }
 
     @Override
-    public FramesCut getCurrentContainer() {
+    public FramesCut getCurrentCut() {
         return containers.get(currentPosition.currentContainer);
     }
 
     @Override
-    public int getCurrentContainerIndex() {
+    public int getCurrentCutIndex() {
         if (containers.size()==0)
         {
             return -1;
         }
 
-        return containers.indexOf(getCurrentContainer());
+        return containers.indexOf(getCurrentCut());
     }
 
     @Override
@@ -177,7 +177,19 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
 
         ArrayList<File> listForResult=new ArrayList<>();
         for (FramesCut cut: containers) {
-            listForResult.addAll(cut.getAllFiles());
+            listForResult.addAll(cut.getFiles());
+        }
+        return listForResult.stream();
+    }
+
+    @Override
+    public Stream<Image> getImageStream() {
+        if(containers.size()==0)
+            return null;
+
+        ArrayList<Image> listForResult=new ArrayList<>();
+        for (FramesCut cut: containers) {
+            listForResult.addAll(cut.getImages());
         }
         return listForResult.stream();
     }

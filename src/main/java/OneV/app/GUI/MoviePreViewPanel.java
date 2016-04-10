@@ -34,7 +34,7 @@ public class MoviePreViewPanel extends JPanel implements ActionListener {
         stop.addActionListener(parent);
         fps.addChangeListener(parent);
         fps.setName("fps");
-        fps.setValue(30);
+        fps.setValue(24);
         buttonPanel.add(start);
         buttonPanel.add(pause);
         buttonPanel.add(stop);

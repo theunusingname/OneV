@@ -79,7 +79,12 @@ public class FramesCutImpl implements FramesCut, Serializable {
     }
 
     @Override
-    public Collection<File> getAllFiles() {
+    public Collection<File> getFiles() {
        return frames.stream().map((a)->a.getFile()).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Image> getImages() {
+        return frames.stream().map((a)->a.getFrame()).collect(Collectors.toList());
     }
 }

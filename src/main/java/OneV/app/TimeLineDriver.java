@@ -7,9 +7,11 @@ import javax.swing.event.ChangeListener;
  * Created by Константин on 27.02.2016.
  */
 public interface TimeLineDriver extends ChangeListener {
-    void play(int fps);
+    void play();
     void stop();
     void pause();
+    void setFPS(int fps);
+    int getFPS();
     boolean gotoPosition(PositionInTimeLine pos);
     public JSlider getSlider();
     public void updateSlider();

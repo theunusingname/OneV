@@ -15,5 +15,6 @@ public interface FramesCut  {
     int size();
     int frameIndex(MovieFrame img);
     FramesCut cut(int pos);
-    Collection<File> getAllFiles();
+    Collection<File> getFiles();
+    Collection<Image> getImages();
 }

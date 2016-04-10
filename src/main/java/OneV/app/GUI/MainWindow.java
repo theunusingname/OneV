@@ -28,7 +28,7 @@ public class MainWindow implements ActionListener,ChangeListener {
         moviePreViewPanel=new MoviePreViewPanel(this);
         driver=new TimeLineDriverImpl(mainTimeLine,moviePreViewPanel.movieView);
         loader=new CutLoaderImpl(320,240);
-        timeLineSlider=(TimeLineSlider) driver.getSlider();
+        timeLineSlider=driver.getSlider();
         toolbarPanel =new ToolbarPanel(this);
         mainMenubar=new MainMenu(this);
         frame=new JFrame("OneV");
@@ -49,9 +49,9 @@ public class MainWindow implements ActionListener,ChangeListener {
 
         switch (e.getActionCommand().toLowerCase()) {
             case "load":
-                mainTimeLine.addContainer( loader.getCutWithDialog());
+                mainTimeLine.addCut( loader.getCutWithDialog());
                 break;
-            case "start": driver.play(30);
+            case "start": driver.play();
                 break;
             case  "pause": driver.pause();
                 break;
@@ -71,7 +71,7 @@ public class MainWindow implements ActionListener,ChangeListener {
 
             case "loadproject":
                 try {
-                    mainTimeLine.addContainers(SaveLoadTimeLine.load());
+                    mainTimeLine.addCuts(SaveLoadTimeLine.load());
 
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -105,7 +105,7 @@ public class MainWindow implements ActionListener,ChangeListener {
         String name=component.getName();
         if(name.equalsIgnoreCase("fps")&&driver!=null)
         {
-           driver.setFps ((Integer)((JSpinner) component).getValue());
+           driver.setFPS ((Integer)((JSpinner) component).getValue());
         }
     }
 }

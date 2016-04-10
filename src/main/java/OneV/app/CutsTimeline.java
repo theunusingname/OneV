@@ -10,14 +10,14 @@ import java.util.stream.Stream;
  */
 public interface CutsTimeline {
     PositionInTimeLine getCurrentPosition();
-    void addContainers(Collection<FramesCut> cuts);
-    void addContainer(FramesCut cut);
+    void addCuts(Collection<FramesCut> cuts);
+    void addCut(FramesCut cut);
     void addBefore(FramesCut cut, int cutCount);
     void addAfter(FramesCut cut, int cutCount);
     void setPosition(PositionInTimeLine pos);
     boolean cut(PositionInTimeLine pos);
-    FramesCut getCurrentContainer();
-    int getCurrentContainerIndex();
+    FramesCut getCurrentCut();
+    int getCurrentCutIndex();
     FramesCut getContainerOnPosition(PositionInTimeLine pos);
     Image getCurrentFrame();
     File getCurrentFile();
@@ -26,4 +26,5 @@ public interface CutsTimeline {
     int getOverallSize();
     void setDriver(TimeLineDriver currentDriver);
     Stream<File> getFileStream();
+    Stream<Image> getImageStream();
 }

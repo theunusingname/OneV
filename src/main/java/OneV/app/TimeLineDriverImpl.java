@@ -3,10 +3,11 @@ package OneV.app;
 import OneV.app.GUI.TimeLineSlider;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * Created by Константин on 28.02.2016.
@@ -23,7 +24,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
     volatile boolean inPlayingFlag;
     volatile int currentSliderPos;
     int maxSlider;
-    int fps=30;
+    volatile int fps=30;
 
     public TimeLineDriverImpl(CutsTimeline timeline, MovieView view)
     {
@@ -38,51 +39,74 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
     }
 
 
-    public  void play(int fps) {
-        this.fps=fps;
+    public  void play() {
         tr=new Thread(()->{
         synchronized (View)
         {
             inPlayingFlag=true;
             PositionInTimeLine position= timeLine.getCurrentPosition();
-            int cuts= timeLine.getCutsSize();
-            for(int i=position.currentContainer; i<cuts; i++)
+            Stream<Image> imageStream= timeLine.getImageStream();
+            Iterator<Image> it= imageStream.iterator();
+            currentSliderPos=0;
+            for (int i=0;i<timeLinePositionToInt(timeLine,position);i++)
             {
+                it.next();
+                currentSliderPos++;
+            }
+            it.forEachRemaining(image ->
+            {
+                while (pauseFlag)
+                try {
+                    Thread.sleep(100);
+                    if(stopFlag) break;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if(stopFlag)
-                    break;
-                FramesCut currentCont= timeLine.getContainerOnPosition(position);
-                for(int j=position.currentFrameCount;j<currentCont.size();j++)
-                {
-                    while (pauseFlag)
-                        try {
-                            Thread.sleep(100);
-                            if(stopFlag) break;
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    if(stopFlag)
-                        break;
+                    tr.interrupt();
 
-                    currentSliderPos=timeLinePositionToInt(timeLine,new PositionInTimeLine(i,j));
-                    slider.setValue(currentSliderPos);
-                    timeLine.setPosition(intToPosition(timeLine,currentSliderPos));
-                    View.showFrame(timeLine.getCurrentFrame());
+                View.showFrame(image);
+                currentSliderPos++;
+                slider.setValue(currentSliderPos);
 
-                    try {
+                try {
                         Thread.sleep(1000/this.fps);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
-                position.currentFrameCount=0;
-            }
+            });
+
+//            for (int i=timeLinePositionToInt(timeLine,position);i<timeLine.getOverallSize();i++)
+//                {
+//                    while (pauseFlag)
+//                        try {
+//                            Thread.sleep(100);
+//                            if(stopFlag) break;
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    if(stopFlag)
+//                        break;
+//
+//                    currentSliderPos=i;
+//                    slider.setValue(currentSliderPos);
+//                    timeLine.setPosition(intToPosition(timeLine,currentSliderPos));
+//                    View.showFrame(timeLine.getCurrentFrame());
+//
+//                    try {
+//                        Thread.sleep(1000/this.fps);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             inPlayingFlag=false;
         }
         });
 
         pauseFlag=false;
         stopFlag=false;
-        tr.start();
+        if(!inPlayingFlag)
+            tr.start();
     }
 
     public void stop() {
@@ -105,14 +129,14 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         int result=0;
         for(int i=0;i<pos.currentContainer;i++)
         {
-            result+=timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).size();
+            result+=timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).size()-1;
         }
         result+=pos.currentFrameCount;
         return result;
     }
 
     @Nullable
-    static public PositionInTimeLine intToPosition(CutsTimeline timeLine, int pos)
+    static public PositionInTimeLine intToPosition(CutsTimeline timeLine, int pos) // FIXME: 09.04.2016 всё уезжает на едениуц вперёд
     {
         PositionInTimeLine result;
         if (timeLine==null||timeLine.getCutsSize()==0)
@@ -120,18 +144,14 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
             System.out.println("cant convert, invalid timeline");
             return null;
         }
-        int cut=-1;
+        int cut=0;
         int frame;
-        try {
             do {
-                cut++;
                 pos -= timeLine.getContainerOnPosition(new PositionInTimeLine(cut, 0)).size();
+                cut++;
             } while (pos > 0);
-        }catch (NullPointerException e)
-        {
-            System.out.println("time line is over");
-            return null;
-        }
+            if (pos<0)
+                cut--;
         frame=timeLine.getContainerOnPosition(new PositionInTimeLine(cut,0)).size()-Math.abs(pos);
         return new PositionInTimeLine(cut,frame);
 
@@ -144,23 +164,22 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
     public TimeLineSlider getSlider()
     {
-        if(timeLine==null)
+        if(timeLine==null||timeLine.getCutsSize()==0)
         {
-            return null;
+            return slider=new TimeLineSlider(timeLine,0,0);
         }
         maxSlider=0;
-        for(int i = 0; i<timeLine.getCutsSize(); i++)
-        {
-            FramesCut currentCont= timeLine.getContainerOnPosition(new PositionInTimeLine(i,0));
-            maxSlider+=currentCont.size()-1;
-        }
+        PositionInTimeLine pos=new PositionInTimeLine(timeLine.getCutsSize()-1,
+                timeLine.getContainerOnPosition(new PositionInTimeLine(timeLine.getCutsSize()-1,0)).size()-1);
+        maxSlider=timeLinePositionToInt(timeLine,pos);
 
         if(slider.getName()!="validSlider") {
-            slider = new TimeLineSlider(0, maxSlider);
+            slider.setMaximum(maxSlider);
             slider.addChangeListener(this);
             slider.setName("validSlider");
             slider.setExtent(1);
         }
+        slider.update();
         return slider;
 
     }
@@ -176,8 +195,13 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         }
     }
 
-    public void setFps(int fps) {
+    public void setFPS(int fps) {
         this.fps = fps;
+    }
+
+    @Override
+    public int getFPS() {
+        return fps;
     }
 
     @Override
