@@ -13,7 +13,7 @@ public interface TimeLineDriver extends ChangeListener {
     void setFPS(int fps);
     int getFPS();
     boolean gotoPosition(PositionInTimeLine pos);
-    public JSlider getSlider();
-    public void updateSlider();
+    JSlider getSlider();
+    void updateSlider();
 
 }

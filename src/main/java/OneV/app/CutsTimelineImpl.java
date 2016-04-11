@@ -73,6 +73,17 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     }
 
     @Override
+    public void deleteCut(PositionInTimeLine pos) {
+        if(containers.size()==1)
+        {
+            System.out.println("can't delete last cut");
+            return;
+        }
+        containers.remove(pos.currentContainer);
+        if(currentDriver!=null) currentDriver.updateSlider();
+    }
+
+    @Override
     public void setPosition(PositionInTimeLine pos) {
        if(pos.currentContainer<=containers.size()) {
            if (pos.currentFrameCount <= containers.get(pos.currentContainer).size()) {

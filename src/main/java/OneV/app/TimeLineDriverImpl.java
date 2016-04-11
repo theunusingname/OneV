@@ -75,45 +75,25 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
                         e.printStackTrace();
                     }
             });
-
-//            for (int i=timeLinePositionToInt(timeLine,position);i<timeLine.getOverallSize();i++)
-//                {
-//                    while (pauseFlag)
-//                        try {
-//                            Thread.sleep(100);
-//                            if(stopFlag) break;
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    if(stopFlag)
-//                        break;
-//
-//                    currentSliderPos=i;
-//                    slider.setValue(currentSliderPos);
-//                    timeLine.setPosition(intToPosition(timeLine,currentSliderPos));
-//                    View.showFrame(timeLine.getCurrentFrame());
-//
-//                    try {
-//                        Thread.sleep(1000/this.fps);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
             inPlayingFlag=false;
+            stop();
         }
         });
 
         pauseFlag=false;
         stopFlag=false;
-        if(!inPlayingFlag)
+        if(!inPlayingFlag&&timeLine.getCutsSize()!=0)
             tr.start();
     }
 
     public void stop() {
         stopFlag=true;
         tr=null;
-        timeLine.setPosition(new PositionInTimeLine(0,0));
-        slider.setValue(timeLinePositionToInt(timeLine, timeLine.getCurrentPosition()));
+        if(timeLine.getCutsSize()!=0)
+        {
+            timeLine.setPosition(new PositionInTimeLine(0, 0));
+            slider.setValue(timeLinePositionToInt(timeLine, timeLine.getCurrentPosition()));
+        }
     }
 
     @Override
@@ -209,7 +189,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
         Component component=(Component) e.getSource();
         String name=component.getName();
-       if(slider.getName()=="validSlider"&&stopFlag==true)
+       if(slider.getName()=="validSlider"&& stopFlag)
        {
            pauseFlag=false;
            stopFlag=true;
@@ -218,6 +198,4 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
        };
     }
-
-
 }

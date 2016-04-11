@@ -14,6 +14,7 @@ public interface CutsTimeline {
     void addCut(FramesCut cut);
     void addBefore(FramesCut cut, int cutCount);
     void addAfter(FramesCut cut, int cutCount);
+    void deleteCut(PositionInTimeLine pos);
     void setPosition(PositionInTimeLine pos);
     boolean cut(PositionInTimeLine pos);
     FramesCut getCurrentCut();

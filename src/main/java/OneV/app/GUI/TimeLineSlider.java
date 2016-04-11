@@ -35,10 +35,11 @@ public class TimeLineSlider extends JSlider implements ChangeListener {
     {
         super.paintComponent(g);
         g.setColor(Color.BLUE);
+        setPreferredSize(new Dimension(getWidth(),30));
         for (int i=0;i<absoluteMarkerX.size();i++)
         {
-            g.drawImage(timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).getFrame(0), absoluteMarkerX.get(i),0,null);
-//            g.drawLine(absoluteMarkerX.get(i),0,absoluteMarkerX.get(i),getHeight());
+            //g.drawImage(timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).getFrame(0), absoluteMarkerX.get(i),0,null);
+            g.drawLine(absoluteMarkerX.get(i),0,absoluteMarkerX.get(i),getHeight());
         }
     }
 
@@ -61,7 +62,7 @@ public class TimeLineSlider extends JSlider implements ChangeListener {
         absoluteMarkerX.clear();
         for (Integer i: startCutPosition)
         {
-            absoluteMarkerX.add(i*ratio);
+            absoluteMarkerX.add(i*ratio+1); // rounding +1 to avoid spaces in right side
         }
     }
 

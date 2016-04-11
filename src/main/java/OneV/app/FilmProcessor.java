@@ -7,6 +7,6 @@ import java.io.IOException;
  */
 public interface FilmProcessor {
 
-    public boolean saveGif() throws IOException;
-    public boolean saveMovie();
+    boolean saveGif() throws IOException;
+    boolean saveMovie();
 }
