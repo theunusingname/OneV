@@ -152,7 +152,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
             } while (pos > 0);
             if (pos<0)
                 cut--;
-        frame=timeLine.getContainerOnPosition(new PositionInTimeLine(cut,0)).size()-Math.abs(pos);
+        frame=timeLine.getContainerOnPosition(new PositionInTimeLine(cut,0)).size()-Math.abs(pos)-1;
         return new PositionInTimeLine(cut,frame);
 
     }
@@ -166,7 +166,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
     {
         if(timeLine==null||timeLine.getCutsSize()==0)
         {
-            return slider=new TimeLineSlider(timeLine,0,0);
+            return slider=new TimeLineSlider(timeLine,1,2);
         }
         maxSlider=0;
         PositionInTimeLine pos=new PositionInTimeLine(timeLine.getCutsSize()-1,
