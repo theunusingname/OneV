@@ -33,12 +33,12 @@ public class TimeLineSlider extends JSlider implements ChangeListener {
 
     public void paintComponent(Graphics g)
     {
-        super.paintComponent(g);
+//        super.paintComponent(g);
         g.setColor(Color.BLUE);
         for (int i=0;i<absoluteMarkerX.size();i++)
         {
-            g.drawImage(timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).getFrame(0), absoluteMarkerX.get(i),0,null);
-//            g.drawLine(absoluteMarkerX.get(i),0,absoluteMarkerX.get(i),getHeight());
+//            g.drawImage(timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).getFrame(0), absoluteMarkerX.get(i),0,null);
+            g.drawLine(absoluteMarkerX.get(i),0,absoluteMarkerX.get(i),getHeight());
         }
     }
 

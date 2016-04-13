@@ -52,7 +52,7 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
             return;
         }
         this.addBeforeCurrent(cut);
-            }
+    }
 
     public void addBeforeCurrent(FramesCut cut)
     {
@@ -69,16 +69,27 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     @Override
     public void addAfter(FramesCut cut, int cutCount) {
         this.addBefore(cut, cutCount +1);
-       if(currentDriver!=null) currentDriver.updateSlider();
+        if(currentDriver!=null) currentDriver.updateSlider();
+    }
+
+    @Override
+    public void deleteCut(PositionInTimeLine pos) {
+        if(containers.size()==1)
+        {
+            System.out.println("can't delete last cut");
+            return;
+        }
+        containers.remove(pos.currentContainer);
+        if(currentDriver!=null) currentDriver.updateSlider();
     }
 
     @Override
     public void setPosition(PositionInTimeLine pos) {
-       if(pos.currentContainer<=containers.size()) {
-           if (pos.currentFrameCount <= containers.get(pos.currentContainer).size()) {
-               currentPosition = pos;
-           }
-       }
+        if(pos.currentContainer<=containers.size()) {
+            if (pos.currentFrameCount <= containers.get(pos.currentContainer).size()) {
+                currentPosition = pos;
+            }
+        }
         else System.out.println("cant set roller");
     }
 
@@ -172,8 +183,8 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
 
     @Override
     public Stream<File> getFileStream() {
-       if(containers.size()==0)
-           return null;
+        if(containers.size()==0)
+            return null;
 
         ArrayList<File> listForResult=new ArrayList<>();
         for (FramesCut cut: containers) {
