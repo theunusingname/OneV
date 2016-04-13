@@ -40,10 +40,8 @@ public class MainWindow implements ActionListener,ChangeListener {
         frame.add(timeLineSlider,BorderLayout.SOUTH);
         frame.setSize(800,600);
         frame.setVisible(true);
-        frame.repaint();
+
     }
-
-
 
 
     @Override
@@ -95,12 +93,6 @@ public class MainWindow implements ActionListener,ChangeListener {
                 }
             }
             break;
-            case "cut":
-                mainTimeLine.cut(mainTimeLine.getCurrentPosition());
-                break;
-            case "delete":
-                mainTimeLine.deleteCut(mainTimeLine.getCurrentPosition());
-                break;
             default:
                 System.out.println("Unknown command: " +e.getActionCommand());
 
@@ -113,9 +105,7 @@ public class MainWindow implements ActionListener,ChangeListener {
         String name=component.getName();
         if(name.equalsIgnoreCase("fps")&&driver!=null)
         {
-            int fps=(Integer)((JSpinner) component).getValue();
-            if(fps>0)
-                driver.setFPS(fps);
+           driver.setFPS ((Integer)((JSpinner) component).getValue());
         }
     }
 }

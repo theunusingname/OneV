@@ -17,6 +17,8 @@ import java.util.stream.*;
  */
 public class CutLoaderImpl implements CutLoader {
 
+    private String directory;
+    private File[] imageFilesArray;
     private int width;
     private int height;
     private int scaleHint;
@@ -95,7 +97,7 @@ public class CutLoaderImpl implements CutLoader {
         FileDialog choseFilesDialog =new FileDialog(dialogFrame,"Chose Images",FileDialog.LOAD);
         choseFilesDialog.setMultipleMode(true);
         choseFilesDialog.setVisible(true);
-        File[] imageFilesArray = choseFilesDialog.getFiles();
+        imageFilesArray= choseFilesDialog.getFiles();
         if (imageFilesArray.length==0)
         {
             System.out.println("no files selected");

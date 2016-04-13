@@ -53,17 +53,28 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
                 it.next();
                 currentSliderPos++;
             }
+
             it.forEachRemaining(image ->
             {
-                while (pauseFlag)
                 try {
+                while (pauseFlag)
+                {
                     Thread.sleep(100);
-                    if(stopFlag) break;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
-                if(stopFlag)
-                    tr.interrupt();
+                    if (stopFlag) {
+                        inPlayingFlag = false;
+                        it.remove();
+                    }
+                }
+                catch (UnsupportedOperationException e) //suspended remove exception on next cycle
+                {
+                    if (e.getMessage()=="remove")
+                    {return;}
+                    else throw e;
+                }
+                catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
                 View.showFrame(image);
                 currentSliderPos++;
@@ -88,7 +99,8 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
     public void stop() {
         stopFlag=true;
-        tr=null;
+        inPlayingFlag=false;
+        pauseFlag=false;
         if(timeLine.getCutsSize()!=0)
         {
             timeLine.setPosition(new PositionInTimeLine(0, 0));
@@ -191,11 +203,17 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         String name=component.getName();
        if(slider.getName()=="validSlider"&& stopFlag)
        {
+           slider.enable();
            pauseFlag=false;
            stopFlag=true;
            timeLine.setPosition(intToPosition(timeLine,slider.getValue()));
            View.showFrame(timeLine.getCurrentFrame());
 
-       };
+       }
+        if(!stopFlag)
+        {
+            slider.setValue(currentSliderPos);
+            slider.disable();
+        }
     }
 }
