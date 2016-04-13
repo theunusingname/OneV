@@ -115,11 +115,11 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
     static public int timeLinePositionToInt(CutsTimeline timeline,PositionInTimeLine pos)
     {
-        if(timeline==null || pos==null)
+        if(timeline==null || pos==null||timeline.getOverallSize()==0)
             return 0;
 
         int result=0;
-        for(int i=0;i<pos.currentContainer;i++)
+        for(int i=0;i<=pos.currentContainer;i++)
         {
             result+=timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).size()-1;
         }
