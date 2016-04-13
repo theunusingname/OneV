@@ -32,10 +32,16 @@ public class DefaultMovieView extends Panel implements MovieView { // TODO: 21.0
     public void paint(Graphics g)
     {
         Graphics screengc = null;
-        screengc=g;
+        Graphics init=g;
+        if(init!=null) {
+            screengc = g;
+        }
         g= imgBuffer==null ?  g : imgBuffer.getGraphics();
+        if(init==null) {
+            screengc=g;
+        }
+            screengc.drawImage(imgBuffer, 0, 0, null);
 
-        screengc.drawImage(imgBuffer,0,0,null);
     }
 
     @Override

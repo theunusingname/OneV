@@ -103,6 +103,7 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
         }
         FramesCut frontHalf= this.getCurrentCut().cut(this.currentPosition.currentFrameCount);
         this.addAfter(frontHalf,this.getCurrentCutIndex());
+        if(currentDriver!=null) currentDriver.updateSlider();
         return true;
     }
 
