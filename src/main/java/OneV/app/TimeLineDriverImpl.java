@@ -62,7 +62,6 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
                     Thread.sleep(100);
                 }
                     if (stopFlag) {
-                        inPlayingFlag = false;
                         it.remove();
                     }
                 }
@@ -101,6 +100,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         stopFlag=true;
         inPlayingFlag=false;
         pauseFlag=false;
+        slider.enable();
         if(timeLine.getCutsSize()!=0)
         {
             timeLine.setPosition(new PositionInTimeLine(0, 0));
@@ -115,7 +115,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
 
     static public int timeLinePositionToInt(CutsTimeline timeline,PositionInTimeLine pos)
     {
-        if(timeline==null || pos==null||timeline.getOverallSize()==0)
+        if(timeline==null ||pos.equals(new PositionInTimeLine(0,0)) ||pos==null||timeline.getOverallSize()==0)
             return 0;
 
         int result=0;
@@ -160,10 +160,8 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         {
             return slider=new TimeLineSlider(timeLine,1,2);
         }
-        maxSlider=0;
-        PositionInTimeLine pos=new PositionInTimeLine(timeLine.getCutsSize()-1,
-                timeLine.getContainerOnPosition(new PositionInTimeLine(timeLine.getCutsSize()-1,0)).size()-1);
-        maxSlider=timeLinePositionToInt(timeLine,pos);
+
+        maxSlider=timeLine.getOverallSize()-1;
 
         if(slider.getName()!="validSlider") {
             slider.setMaximum(maxSlider);
@@ -203,9 +201,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
         String name=component.getName();
        if(slider.getName()=="validSlider"&& stopFlag)
        {
-           slider.enable();
            pauseFlag=false;
-           stopFlag=true;
            timeLine.setPosition(intToPosition(timeLine,slider.getValue()));
            View.showFrame(timeLine.getCurrentFrame());
 

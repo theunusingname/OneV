@@ -68,8 +68,8 @@ public class TimeLineSlider extends JSlider implements ChangeListener, MouseMoti
         int collector=0;
         for (int i= 0;i<timeline.getCutsSize();i++)
         {
-            collector+=timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).size();
             startCutPosition.add(collector);
+            collector+=timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).size();
         }
         absoluteMarkerX.clear();
         for (Integer i: startCutPosition)
