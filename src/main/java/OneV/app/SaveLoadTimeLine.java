@@ -2,7 +2,8 @@ package OneV.app;
 
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Константин on 26.03.2016.
@@ -25,12 +26,16 @@ public class SaveLoadTimeLine {
         fos.close();
     }
 
-    public static ArrayList<FramesCut> load() throws IOException, ClassNotFoundException {
+    public static List load() throws IOException, ClassNotFoundException {
         ArrayList<FramesCut> result=new ArrayList<>();
         Frame dialogFrame=new Frame();
         FileDialog dialog =new FileDialog(dialogFrame,"Save",FileDialog.LOAD);
         dialog.setVisible(true);
         File input=new File(dialog.getDirectory()+ dialog.getFile());
+
+        if(!input.toString().toLowerCase().endsWith(".ovp"))
+            return Collections.EMPTY_LIST;
+
         FileInputStream fis=new FileInputStream(input);
         ObjectInputStream ois=new ObjectInputStream(fis);
         int size=ois.readInt();

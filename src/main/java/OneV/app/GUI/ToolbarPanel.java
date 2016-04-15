@@ -21,14 +21,10 @@ public class ToolbarPanel extends JToolBar {
         loadingToolbarElement =new LoadingToolbarElement(parent);
         editToolbarElement= new EditToolbarElement(parent);
         add(loadingToolbarElement,FlowLayout.LEFT);
+        add(new Separator(new Dimension(5,getWidth())));
         add(editToolbarElement,FlowLayout.LEFT);
-        addSeparator(new Dimension(2,10));
+        addSeparator(new Dimension(5,getWidth()));
         add(new JButton("button"));
     }
 
-    public void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-
-    }
 }

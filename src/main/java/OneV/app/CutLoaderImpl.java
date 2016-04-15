@@ -1,6 +1,7 @@
 package OneV.app;
 
 import OneV.app.GUI.ProgressWidget;
+import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -37,18 +38,22 @@ public class CutLoaderImpl implements CutLoader {
     }
 
     @Override
+    @Nullable
     public FramesCut getCut(File[] files)  {
         ArrayList<MovieFrame> frames=new ArrayList<>();
 
         inLoading=true;
         for (File file : files) {
-//            if(file.isFile()&&
-//                    file.toString().toLowerCase().endsWith(".jpeg")&&
-//                    file.toString().toLowerCase().endsWith(".jpg"))
-//            {
+            if(file.isFile()&&(
+                    file.toString().toLowerCase().endsWith(".jpeg")||
+                    file.toString().toLowerCase().endsWith(".jpg")))
+            {
             frames.add(new MovieFrameImpl(null, file));
-//            }
+            }
         }
+        if(frames.size()==0)
+            return null;
+
         ProgressWidget progressBar=new ProgressWidget(0,frames.size(),"Loading images");
         tr=new Thread(()-> {
             Stream<MovieFrame> frameStream = frames.stream();
@@ -58,7 +63,7 @@ public class CutLoaderImpl implements CutLoader {
             long timer = date.getTime();
             frameStream.parallel().forEach(frame -> {
                 try {
-                    progressBar.setTextInfo("Loading:" + frame.getFile() +" "+ Thread.currentThread().getName());
+                    progressBar.setTextInfo("Loading: " + frame.getFile().getName());
                     frame.setFrame(toBufferedImage(ImageIO.read(frame.getFile()).getScaledInstance(width, height, scaleHint)));
                     progressBar.incrementProgress(1);
                 } catch (IOException e) {
@@ -92,6 +97,7 @@ public class CutLoaderImpl implements CutLoader {
     }
 
     @Override
+    @Nullable
     public FramesCut getCutWithDialog() {
         Frame dialogFrame=new Frame();
         FileDialog choseFilesDialog =new FileDialog(dialogFrame,"Chose Images",FileDialog.LOAD);
@@ -103,7 +109,6 @@ public class CutLoaderImpl implements CutLoader {
             System.out.println("no files selected");
             return null;
         }
-
         return this.getCut(imageFilesArray);
     }
 

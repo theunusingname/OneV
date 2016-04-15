@@ -51,7 +51,7 @@ public class MovieFrameImpl implements MovieFrame, Externalizable {
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         file=(File) in.readObject();
-        //img= CutLoaderImpl.toBufferedImage(ImageIO.read(file).getScaledInstance(640,480,Image.SCALE_SMOOTH));
         img=ImageIO.read((InputStream) in);
+        System.out.println("read: "+file.getName());
     }
 }

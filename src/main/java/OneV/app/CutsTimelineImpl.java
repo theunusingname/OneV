@@ -76,7 +76,11 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     public void deleteCut(PositionInTimeLine pos) {
         if(containers.size()==1)
         {
-            System.out.println("can't delete last cut");
+            System.out.println("can't delete use Clear");
+            return;
+        }
+        if (containers.size()==0)
+        {
             return;
         }
         containers.remove(pos.currentContainer);
@@ -102,7 +106,7 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
             return false;
         }
         FramesCut frontHalf= this.getCurrentCut().cut(this.currentPosition.currentFrameCount);
-        this.addAfter(frontHalf,this.getCurrentCutIndex());
+        this.addBefore(frontHalf,this.getCurrentCutIndex());
         if(currentDriver!=null) currentDriver.updateSlider();
         return true;
     }

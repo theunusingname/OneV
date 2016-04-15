@@ -49,7 +49,9 @@ public class MainWindow implements ActionListener,ChangeListener {
 
         switch (e.getActionCommand().toLowerCase()) {
             case "load":
-                mainTimeLine.addCut( loader.getCutWithDialog());
+                FramesCut cutToAdd=loader.getCutWithDialog();
+                if (cutToAdd!=null)
+                    mainTimeLine.addCut(cutToAdd);
                 break;
             case "start": driver.play();
                 break;

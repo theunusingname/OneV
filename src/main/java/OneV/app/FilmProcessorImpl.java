@@ -41,6 +41,10 @@ public class FilmProcessorImpl implements FilmProcessor {
             }
         });
         saveFileDialog.setVisible(true);
+        if (timeline==null||timeline.getOverallSize()==0)
+        {
+            System.out.println("cant save");
+        }
         //init writer with first image
         ImageOutputStream output = new FileImageOutputStream(new File(saveFileDialog.getDirectory()+saveFileDialog.getFile()+".gif"));
         BufferedImage firstImage =
