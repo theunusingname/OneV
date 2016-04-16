@@ -19,6 +19,12 @@
   </build>
   <name>OneV</name>
   <url>http://maven.apache.org</url>
+  <repositories>
+    <repository>
+        <id>javaopencvbook</id>
+        <url>https://raw.github.com/JavaOpenCVBook/code/maven2/</url>
+    </repository>
+</repositories>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -26,5 +32,31 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>net.bramp.ffmpeg</groupId>
+      <artifactId>ffmpeg</artifactId>
+      <version>0.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>13.0</version>
+    </dependency>
+    <dependency>
+     <groupId>org.javaopencvbook</groupId>
+     <artifactId>opencvjar</artifactId>
+     <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bytedeco.javacpp-presets</groupId>
+      <artifactId>opencv</artifactId>
+      <version>3.0.0-1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>nu.pattern</groupId>
+      <artifactId>opencv</artifactId>
+      <version>2.4.9-4</version>
+    </dependency>
+    
   </dependencies>
 </project>
