@@ -15,6 +15,7 @@ public class MainMenu extends JMenuBar {
     JMenuItem loadProjItem=new JMenuItem("LoadProject");
     JMenu export= new JMenu("Export");
     JMenuItem exportToGIF=new JMenuItem("Export to GIF");
+    JMenuItem exportToMovie=new JMenuItem("Export to Movie");
 
 
     MainMenu(ActionListener parent)
@@ -26,11 +27,13 @@ public class MainMenu extends JMenuBar {
         file.add(loadProjItem);
         add(export);
         export.add(exportToGIF);
+        export.add(exportToMovie);
         this.parent=parent;
         saveItem.addActionListener(parent);
         loadItem.addActionListener(parent);
         loadProjItem.addActionListener(parent);
         exportToGIF.addActionListener(parent);
+        exportToMovie.addActionListener(parent);
         this.setVisible(true);
     }
 }

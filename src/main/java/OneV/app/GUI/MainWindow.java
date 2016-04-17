@@ -95,6 +95,13 @@ public class MainWindow implements ActionListener,ChangeListener {
                 }
             }
             break;
+            case "export to movie":
+                FilmProcessorImpl processor=new FilmProcessorImpl(mainTimeLine);
+                try {
+                    processor.saveMovie();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             case "cut":
                 mainTimeLine.cut(mainTimeLine.getCurrentPosition());
                 break;

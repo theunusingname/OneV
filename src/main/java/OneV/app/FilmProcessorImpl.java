@@ -1,15 +1,15 @@
 package OneV.app;
 
 import OneV.app.GUI.ProgressWidget;
-
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * Created by kkuznetsov on 04.04.2016.
@@ -78,10 +78,87 @@ public class FilmProcessorImpl implements FilmProcessor {
 
     return false;
 }
-    @Override
-    public boolean saveMovie() {
 
+    @Override
+    public boolean saveMovie() throws IOException {
+        Frame dialogFrame = new Frame();
+        FileDialog saveFileDialog = new FileDialog(dialogFrame, "Save Movie", FileDialog.SAVE);
+        saveFileDialog.setVisible(true);
+        if (timeline==null||timeline.getOverallSize()==0)
+        {
+            System.out.println("cant save");
+        }
+
+            File ffmpeg_output_msg = new File("ffmpeg_output_msg.txt");
+            ProcessBuilder pb = new ProcessBuilder(
+                    "ffmpeg.exe", "-i", "pipe:0", saveFileDialog.getDirectory() + saveFileDialog.getFile() + ".avi");
+            pb.redirectErrorStream(true);
+            pb.redirectOutput(ffmpeg_output_msg);
+            pb.redirectInput(ProcessBuilder.Redirect.PIPE);
+            Process p = null;
+            try {
+                p = pb.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            OutputStream ffmpegInput = p.getOutputStream();
+
+            Stream<File> fileStream = timeline.getFileStream();
+            Iterator<File> fileIterator = fileStream.iterator();
+            fileIterator.forEachRemaining((file) -> {
+                byte[] image;
+
+                image = new byte[(int) file.length()];
+
+                FileInputStream fileInputStream = null;
+                try {
+
+                    fileInputStream = new FileInputStream(file);
+
+                    fileInputStream.read(image);
+
+                    ImageInputStream iis = ImageIO.createImageInputStream(
+                            new ByteArrayInputStream(image));
+                    BufferedImage img = ImageIO.read(iis);
+
+                    ImageIO.write(img, "JPEG", ffmpegInput);
+                    fileInputStream.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+                p.destroy();
+        try {
+                ffmpegInput.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         return false;
+    }
+
+    public static void main(String[] args) throws IOException {
+        File ffmpeg_output_msg = new File("ffmpeg_output_msg.txt");
+        ProcessBuilder pb = new ProcessBuilder(
+                "ffmpeg.exe","-i","pipe:0","out.avi");
+        pb.redirectErrorStream(true);
+        pb.redirectOutput(ffmpeg_output_msg);
+        pb.redirectInput(ProcessBuilder.Redirect.PIPE);
+        Process p = pb.start();
+        OutputStream ffmpegInput = p.getOutputStream();
+
+        byte[] image;
+        File file = new File("input.jpg");
+        image = new byte[(int)file.length()];
+
+        FileInputStream fileInputStream = new FileInputStream(file);
+        fileInputStream.read(image);
+
+        ImageInputStream iis = ImageIO.createImageInputStream(
+                new ByteArrayInputStream(image));
+        BufferedImage img = ImageIO.read(iis);
+
+        ImageIO.write(img, "JPEG", ffmpegInput);
     }
 }
 

@@ -31,10 +31,5 @@
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.6.2" level="project" />
     <orderEntry type="library" name="Maven: org.modelmapper:modelmapper:0.7.5" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
-    <orderEntry type="library" name="Maven: org.javaopencvbook:opencvjar:3.0.0" level="project" />
-    <orderEntry type="library" name="Maven: org.bytedeco.javacpp-presets:opencv:3.0.0-1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.bytedeco:javacpp:1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.bytedeco.javacpp-presets:opencv:windows-x86:3.0.0-1.1" level="project" />
-    <orderEntry type="library" name="Maven: nu.pattern:opencv:2.4.9-4" level="project" />
   </component>
 </module>
