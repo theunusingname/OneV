@@ -25,7 +25,7 @@ public class FilmProcessorImpl implements FilmProcessor {
     Thread tr;
     Process p;
     volatile int progress=0;
-    volatile ProgressWidget progressMonitor;
+    ProgressWidget progressMonitor;
 
 
     public FilmProcessorImpl(CutsTimeline tl) {
