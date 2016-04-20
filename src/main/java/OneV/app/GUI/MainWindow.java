@@ -97,6 +97,7 @@ public class MainWindow implements ActionListener,ChangeListener {
             break;
             case "export to movie":
                 FilmProcessorImpl processor=new FilmProcessorImpl(mainTimeLine);
+                processor.setParentWindow(frame);
                 try {
                     processor.saveMovie();
                 } catch (IOException e1) {

@@ -5,9 +5,12 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.lang.invoke.SwitchPoint;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
@@ -16,8 +19,13 @@ import java.util.stream.Stream;
  */
 public class FilmProcessorImpl implements FilmProcessor {
     CutsTimeline timeline;
+    Component parentWindow;
     int width=320;
     int height=240;
+    Thread tr;
+    Process p;
+    volatile int progress=0;
+    volatile ProgressWidget progressMonitor;
 
 
     public FilmProcessorImpl(CutsTimeline tl) {
@@ -30,8 +38,13 @@ public class FilmProcessorImpl implements FilmProcessor {
         this.height=height;
     }
 
+    public void setParentWindow(Component parent)
+    {
+        parentWindow=parent;
+    }
+
     @Override
-    public boolean saveGif() throws IOException {
+    public void saveGif() throws IOException {
         Frame dialogFrame = new Frame();
         FileDialog saveFileDialog = new FileDialog(dialogFrame, "Save GIF", FileDialog.SAVE);
         saveFileDialog.setFilenameFilter(new FilenameFilter() {
@@ -76,11 +89,13 @@ public class FilmProcessorImpl implements FilmProcessor {
         }
 
 
-    return false;
+
 }
 
     @Override
-    public boolean saveMovie() throws IOException {
+    public void saveMovie() throws IOException
+    {
+
         Frame dialogFrame = new Frame();
         FileDialog saveFileDialog = new FileDialog(dialogFrame, "Save Movie", FileDialog.SAVE);
         saveFileDialog.setVisible(true);
@@ -89,52 +104,64 @@ public class FilmProcessorImpl implements FilmProcessor {
             System.out.println("cant save");
         }
 
-            File ffmpeg_output_msg = new File("ffmpeg_output_msg.txt");
-            ProcessBuilder pb = new ProcessBuilder(
-                    "ffmpeg.exe", "-i", "pipe:0", saveFileDialog.getDirectory() + saveFileDialog.getFile() + ".avi");
-            pb.redirectErrorStream(true);
-            pb.redirectOutput(ffmpeg_output_msg);
-            pb.redirectInput(ProcessBuilder.Redirect.PIPE);
-            Process p = null;
+        File ffmpeg_output_msg = new File("ffmpeg_output_msg.txt");
+        ProcessBuilder pb = new ProcessBuilder(
+                "ffmpeg.exe", "-i", "pipe:0", saveFileDialog.getDirectory() + saveFileDialog.getFile() + ".avi");
+        pb.redirectErrorStream(true);
+        pb.redirectOutput(ffmpeg_output_msg);
+        pb.redirectInput(ProcessBuilder.Redirect.PIPE);
+        p = null;
+        try {
+            p = pb.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        OutputStream ffmpegInput = p.getOutputStream();
+
+        progressMonitor=new ProgressWidget(0,timeline.getOverallSize(),"saveMovie");
+        progress=0;
+        Stream<File> fileStream = timeline.getFileStream();
+        tr=new Thread(()->{
+        fileStream.forEach((file) -> {
+            progress++;
+            progressMonitor.setProgress(progress);
+            progressMonitor.setTextInfo(file.getName());
+            byte[] image;
+            image = new byte[(int) file.length()];
+            FileInputStream fileInputStream = null;
             try {
-                p = pb.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            OutputStream ffmpegInput = p.getOutputStream();
 
-            Stream<File> fileStream = timeline.getFileStream();
-            Iterator<File> fileIterator = fileStream.iterator();
-            fileIterator.forEachRemaining((file) -> {
-                byte[] image;
+                fileInputStream = new FileInputStream(file);
 
-                image = new byte[(int) file.length()];
+                fileInputStream.read(image);
 
-                FileInputStream fileInputStream = null;
-                try {
+                ImageInputStream iis = ImageIO.createImageInputStream(
+                        new ByteArrayInputStream(image));
+                BufferedImage img = ImageIO.read(iis);
 
-                    fileInputStream = new FileInputStream(file);
-
-                    fileInputStream.read(image);
-
-                    ImageInputStream iis = ImageIO.createImageInputStream(
-                            new ByteArrayInputStream(image));
-                    BufferedImage img = ImageIO.read(iis);
-
-                    ImageIO.write(img, "JPEG", ffmpegInput);
-                    fileInputStream.close();
+                ImageIO.write(img, "JPEG", ffmpegInput);
+                fileInputStream.close();
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             });
-                p.destroy();
-        try {
+            p.destroy();
+            progressMonitor.dispose();
+            try {
                 ffmpegInput.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        return false;
+        });
+        tr.start();
+
+
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
     }
 
     public static void main(String[] args) throws IOException {
