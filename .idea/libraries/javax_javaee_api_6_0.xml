@@ -3,6 +3,7 @@
     <properties maven-id="javax:javaee-api:6.0" />
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/javaee-api-6.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javaee-api-6.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

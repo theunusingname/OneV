@@ -5,13 +5,9 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.lang.invoke.SwitchPoint;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 import java.util.stream.Stream;
 
 /**
@@ -105,8 +101,15 @@ public class FilmProcessorImpl implements FilmProcessor {
         }
 
         File ffmpeg_output_msg = new File("ffmpeg_output_msg.txt");
-        ProcessBuilder pb = new ProcessBuilder(
-                "ffmpeg.exe", "-i", "pipe:0", saveFileDialog.getDirectory() + saveFileDialog.getFile() + ".avi");
+        ProcessBuilder pb = new ProcessBuilder(   //Параметры и модификаторы отдельными сторками!!!
+                "ffmpeg",
+                "-f", "image2pipe",
+                "-i","pipe:0",
+                "-f", "mp4",
+                "-vcodec","h264",
+                "-b", "10m",
+                "-y",
+                saveFileDialog.getDirectory()+saveFileDialog.getFile()+".mp4");
         pb.redirectErrorStream(true);
         pb.redirectOutput(ffmpeg_output_msg);
         pb.redirectInput(ProcessBuilder.Redirect.PIPE);
@@ -115,6 +118,7 @@ public class FilmProcessorImpl implements FilmProcessor {
             p = pb.start();
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
         OutputStream ffmpegInput = p.getOutputStream();
 
@@ -144,9 +148,12 @@ public class FilmProcessorImpl implements FilmProcessor {
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                progressMonitor.dispose();
                 }
             });
-            p.destroy();
+            //pb.command("end");
+            //p.destroy();
+
             progressMonitor.dispose();
             try {
                 ffmpegInput.close();

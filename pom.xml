@@ -42,6 +42,11 @@
       <artifactId>annotations</artifactId>
       <version>13.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.boofcv</groupId>
+      <artifactId>xuggler</artifactId>
+      <version>0.16</version>
+    </dependency>
     <!--<dependency>-->
      <!--<groupId>org.javaopencvbook</groupId>-->
      <!--<artifactId>opencvjar</artifactId>-->
