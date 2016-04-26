@@ -51,9 +51,10 @@ public class CutLoaderImpl implements CutLoader {
             frames.add(new MovieFrameImpl(null, file));
             }
         }
-        if(frames.size()==0)
+        if(frames.size()==0) {
+            System.out.println("no images");
             return null;
-
+        }
         ProgressWidget progressBar=new ProgressWidget(0,frames.size(),"Loading images");
         tr=new Thread(()-> {
             Stream<MovieFrame> frameStream = frames.stream();

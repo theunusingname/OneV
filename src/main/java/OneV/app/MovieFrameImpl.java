@@ -46,6 +46,7 @@ public class MovieFrameImpl implements MovieFrame, Externalizable {
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(file);
         ImageIO.write((BufferedImage)img,"jpeg",(OutputStream) out);
+
     }
 
     @Override
@@ -53,5 +54,6 @@ public class MovieFrameImpl implements MovieFrame, Externalizable {
         file=(File) in.readObject();
         img=ImageIO.read((InputStream) in);
         System.out.println("read: "+file.getName());
+        img.flush();
     }
 }

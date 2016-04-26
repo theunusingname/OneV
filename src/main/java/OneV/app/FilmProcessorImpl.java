@@ -171,28 +171,5 @@ public class FilmProcessorImpl implements FilmProcessor {
         super.finalize();
     }
 
-    public static void main(String[] args) throws IOException {
-        File ffmpeg_output_msg = new File("ffmpeg_output_msg.txt");
-        ProcessBuilder pb = new ProcessBuilder(
-                "ffmpeg.exe","-i","pipe:0","out.avi");
-        pb.redirectErrorStream(true);
-        pb.redirectOutput(ffmpeg_output_msg);
-        pb.redirectInput(ProcessBuilder.Redirect.PIPE);
-        Process p = pb.start();
-        OutputStream ffmpegInput = p.getOutputStream();
-
-        byte[] image;
-        File file = new File("input.jpg");
-        image = new byte[(int)file.length()];
-
-        FileInputStream fileInputStream = new FileInputStream(file);
-        fileInputStream.read(image);
-
-        ImageInputStream iis = ImageIO.createImageInputStream(
-                new ByteArrayInputStream(image));
-        BufferedImage img = ImageIO.read(iis);
-
-        ImageIO.write(img, "JPEG", ffmpegInput);
-    }
 }
 

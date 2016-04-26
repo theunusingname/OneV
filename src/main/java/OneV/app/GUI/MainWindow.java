@@ -18,7 +18,7 @@ public class MainWindow implements ActionListener,ChangeListener {
     private ToolbarPanel toolbarPanel;
     private MoviePreViewPanel moviePreViewPanel;
     private TimeLineSlider timeLineSlider;
-    private JFrame frame;
+    private JFrame mainFrame;
     private JMenuBar mainMenubar;
     protected CutsTimelineImpl mainTimeLine=new CutsTimelineImpl();
     protected TimeLineDriverImpl driver;
@@ -31,15 +31,15 @@ public class MainWindow implements ActionListener,ChangeListener {
         timeLineSlider=driver.getSlider();
         toolbarPanel =new ToolbarPanel(this);
         mainMenubar=new MainMenu(this);
-        frame=new JFrame("OneV");
-        frame.setJMenuBar(mainMenubar);
-        frame.setLayout(new BorderLayout());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(toolbarPanel,BorderLayout.NORTH);
-        frame.add(moviePreViewPanel,BorderLayout.CENTER);
-        frame.add(timeLineSlider,BorderLayout.SOUTH);
-        frame.setSize(800,600);
-        frame.setVisible(true);
+        mainFrame =new JFrame("OneV");
+        mainFrame.setJMenuBar(mainMenubar);
+        mainFrame.setLayout(new BorderLayout());
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.add(toolbarPanel,BorderLayout.NORTH);
+        mainFrame.add(moviePreViewPanel,BorderLayout.CENTER);
+        mainFrame.add(timeLineSlider,BorderLayout.SOUTH);
+        mainFrame.setSize(800,600);
+        mainFrame.setVisible(true);
 
     }
 
@@ -85,7 +85,7 @@ public class MainWindow implements ActionListener,ChangeListener {
                 break;
             case "export to gif":
             {
-                SizeDialog sizeDialog= new SizeDialog(frame,"setSize");
+                SizeDialog sizeDialog= new SizeDialog(mainFrame,"setSize");
                 FilmProcessorImpl processor=new FilmProcessorImpl(mainTimeLine);
                 processor.setResultSize(sizeDialog.getWidthValue(),sizeDialog.getHeightValue());
                 try {
@@ -97,7 +97,7 @@ public class MainWindow implements ActionListener,ChangeListener {
             break;
             case "export to movie":
                 FilmProcessorImpl processor=new FilmProcessorImpl(mainTimeLine);
-                processor.setParentWindow(frame);
+                processor.setParentWindow(mainFrame);
                 try {
                     processor.saveMovie();
                 } catch (IOException e1) {
