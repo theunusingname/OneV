@@ -39,6 +39,7 @@ public class SaveLoadTimeLine {
         FileInputStream fis=new FileInputStream(input);
         ObjectInputStream ois=new ObjectInputStream(fis);
         int size=ois.readInt();
+        System.out.println("size: "+size);
         for (;size>0;size--)
         {
             result.add((FramesCutImpl)ois.readObject());

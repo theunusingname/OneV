@@ -108,6 +108,7 @@ public class FilmProcessorImpl implements FilmProcessor {
                 "-f", "mp4",
                 "-vcodec","h264",
                 "-b", "10m",
+                "-r", "200",
                 "-y",
                 saveFileDialog.getDirectory()+saveFileDialog.getFile()+".mp4");
         pb.redirectErrorStream(true);
