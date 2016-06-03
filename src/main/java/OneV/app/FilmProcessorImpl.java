@@ -1,5 +1,6 @@
 package OneV.app;
 
+import OneV.app.Effects.EffectQue;
 import OneV.app.GUI.ProgressWidget;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
@@ -7,6 +8,7 @@ import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.*;
 import java.util.stream.Stream;
 
@@ -15,7 +17,6 @@ import java.util.stream.Stream;
  */
 public class FilmProcessorImpl implements FilmProcessor {
     CutsTimeline timeline;
-    Component parentWindow;
     int width=320;
     int height=240;
     Thread tr;
@@ -28,16 +29,13 @@ public class FilmProcessorImpl implements FilmProcessor {
         timeline = tl;
     }
 
+    @Override
     public void setResultSize(int width,int height)
     {
         this.width=width;
         this.height=height;
     }
 
-    public void setParentWindow(Component parent)
-    {
-        parentWindow=parent;
-    }
 
     @Override
     public void saveGif() throws IOException {
@@ -143,8 +141,8 @@ public class FilmProcessorImpl implements FilmProcessor {
                 ImageInputStream iis = ImageIO.createImageInputStream(
                         new ByteArrayInputStream(image));
                 BufferedImage img = ImageIO.read(iis);
-
-                ImageIO.write(img, "JPEG", ffmpegInput);
+                EffectQue effectQue= timeline.getContainerOnPosition(TimeLineDriverImpl.intToPosition(timeline,progress)).getEffectQue();
+                ImageIO.write((RenderedImage) effectQue.performEffects(img), "JPEG", ffmpegInput);
                 fileInputStream.close();
 
                 } catch (IOException e) {
@@ -152,8 +150,6 @@ public class FilmProcessorImpl implements FilmProcessor {
                 progressMonitor.dispose();
                 }
             });
-            //pb.command("end");
-            //p.destroy();
 
             progressMonitor.dispose();
             try {

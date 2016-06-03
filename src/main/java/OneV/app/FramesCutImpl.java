@@ -1,5 +1,9 @@
 package OneV.app;
 
+import OneV.app.Effects.Effect;
+import OneV.app.Effects.EffectQue;
+import OneV.app.Effects.EffectQueImpl;
+
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -11,8 +15,9 @@ import java.util.stream.Stream;
  * Created by kkuznetsov on 11.03.2016.
  */
 public class FramesCutImpl implements FramesCut, Serializable {
-    private ArrayList<MovieFrame> frames;
+    private volatile ArrayList<MovieFrame> frames;
     private int lastGeted;
+    private EffectQue effectQue=new EffectQueImpl();
 
     FramesCutImpl()
     {
@@ -86,5 +91,27 @@ public class FramesCutImpl implements FramesCut, Serializable {
     @Override
     public Collection<Image> getImages() {
         return frames.stream().map((a)->a.getFrame()).collect(Collectors.toList());
+    }
+
+    @Override
+    public void addEffect(Effect effect)
+    {
+        effectQue.addEffect(effect);
+        for (MovieFrame frame: frames)
+        {
+            frame.setFrame(effect.performEffect(frame.getFrame()));
+        }
+        System.out.println("effect is added");
+    }
+
+    @Override
+    public void removeEffect(int index)
+    {
+        effectQue.removeEffect(index);
+    }
+
+    @Override
+    public EffectQue getEffectQue() {
+        return effectQue;
     }
 }

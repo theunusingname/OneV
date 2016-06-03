@@ -1,5 +1,8 @@
 package OneV.app;
 
+import OneV.app.Effects.EffectQue;
+import OneV.app.Effects.EffectQueImpl;
+
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -14,9 +17,11 @@ public class CutsTimelineImpl implements CutsTimeline, Externalizable {
     private ArrayList<FramesCut> containers = new ArrayList<>();
     private TimeLineDriver currentDriver;
 
+
     public CutsTimelineImpl()
     {
         currentPosition=new PositionInTimeLine(0,0);
+
     }
 
     @Override

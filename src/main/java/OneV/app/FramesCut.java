@@ -1,5 +1,8 @@
 package OneV.app;
 
+import OneV.app.Effects.Effect;
+import OneV.app.Effects.EffectQue;
+
 import java.awt.*;
 import java.io.File;
 import java.util.Collection;
@@ -17,4 +20,7 @@ public interface FramesCut  {
     FramesCut cut(int pos);
     Collection<File> getFiles();
     Collection<Image> getImages();
+    void addEffect(Effect effect);
+    void removeEffect(int index);
+    EffectQue getEffectQue();
 }

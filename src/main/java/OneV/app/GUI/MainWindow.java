@@ -1,6 +1,9 @@
 package OneV.app.GUI;
 
 import OneV.app.*;
+import OneV.app.Effects.EffectFlip;
+import OneV.app.Effects.EffectQue;
+import OneV.app.Effects.EffectQueImpl;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -22,9 +25,11 @@ public class MainWindow implements ActionListener,ChangeListener {
     private JMenuBar mainMenubar;
     protected CutsTimelineImpl mainTimeLine=new CutsTimelineImpl();
     protected TimeLineDriverImpl driver;
+    protected FilmProcessor processor;
 
     public MainWindow()
     {
+        processor=new FilmProcessorImpl(mainTimeLine);
         moviePreViewPanel=new MoviePreViewPanel(this);
         driver=new TimeLineDriverImpl(mainTimeLine,moviePreViewPanel.movieView);
         loader=new CutLoaderImpl(320,240);
@@ -86,7 +91,6 @@ public class MainWindow implements ActionListener,ChangeListener {
             case "export to gif":
             {
                 SizeDialog sizeDialog= new SizeDialog(mainFrame,"setSize");
-                FilmProcessorImpl processor=new FilmProcessorImpl(mainTimeLine);
                 processor.setResultSize(sizeDialog.getWidthValue(),sizeDialog.getHeightValue());
                 try {
                     processor.saveGif();
@@ -96,8 +100,7 @@ public class MainWindow implements ActionListener,ChangeListener {
             }
             break;
             case "export to movie":
-                FilmProcessorImpl processor=new FilmProcessorImpl(mainTimeLine);
-                processor.setParentWindow(mainFrame);
+
                 try {
                     processor.saveMovie();
                 } catch (IOException e1) {
@@ -108,6 +111,9 @@ public class MainWindow implements ActionListener,ChangeListener {
                 break;
             case "delete":
                 mainTimeLine.deleteCut(mainTimeLine.getCurrentPosition());
+                break;
+            case  "flip":
+                mainTimeLine.getCurrentCut().addEffect(new EffectFlip());
                 break;
             default:
                 System.out.println("Unknown command: " +e.getActionCommand());

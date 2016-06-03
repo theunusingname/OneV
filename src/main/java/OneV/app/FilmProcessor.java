@@ -7,6 +7,7 @@ import java.io.IOException;
  */
 public interface FilmProcessor {
 
+    public void setResultSize(int width,int height);
     public void saveGif() throws IOException;
     public void saveMovie() throws IOException;
 }
