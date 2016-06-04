@@ -119,7 +119,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
             return 0;
 
         int result=0;
-        for(int i=0;i<=pos.currentContainer;i++)
+        for(int i=0;i<pos.currentContainer;i++)
         {
             result+=timeline.getContainerOnPosition(new PositionInTimeLine(i,0)).size()-1;
         }
@@ -130,7 +130,6 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
     @Nullable
     static public PositionInTimeLine intToPosition(CutsTimeline timeLine, int pos) // FIXME: 09.04.2016 всё уезжает на едениуц вперёд
     {
-        PositionInTimeLine result;
         if (timeLine==null||timeLine.getCutsSize()==0)
         {
             System.out.println("cant convert, invalid timeline");
