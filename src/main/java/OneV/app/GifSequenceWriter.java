@@ -1,8 +1,6 @@
 package OneV.app;
 
-/**
- * Created by kkuznetsov on 04.04.2016.
- */
+
 
     //
 //  GifSequenceWriter.java
