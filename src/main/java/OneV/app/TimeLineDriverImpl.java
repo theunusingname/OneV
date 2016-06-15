@@ -128,7 +128,7 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
     }
 
     @Nullable
-    static public PositionInTimeLine intToPosition(CutsTimeline timeLine, int pos) // FIXME: 09.04.2016 всё уезжает на едениуц вперёд
+    static public PositionInTimeLine intToPosition(CutsTimeline timeLine, int pos)  // FIXME: 09.04.2016 всё уезжает на едениуц вперёд
     {
         if (timeLine==null||timeLine.getCutsSize()==0)
         {
@@ -141,9 +141,18 @@ public class TimeLineDriverImpl implements TimeLineDriver, ChangeListener{
                 pos -= timeLine.getContainerOnPosition(new PositionInTimeLine(cut, 0)).size();
                 cut++;
             } while (pos > 0);
+
             if (pos<0)
+            {
                 cut--;
-        frame=timeLine.getContainerOnPosition(new PositionInTimeLine(cut,0)).size()-Math.abs(pos)-1;
+                frame = timeLine.getContainerOnPosition(new PositionInTimeLine(cut, 0)).size() - Math.abs(pos);
+            }else if(pos==0)
+            {
+                frame=0;
+            }else
+            {
+                frame=pos;
+            }
         return new PositionInTimeLine(cut,frame);
 
     }
