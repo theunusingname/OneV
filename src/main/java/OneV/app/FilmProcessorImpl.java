@@ -122,6 +122,9 @@ public class FilmProcessorImpl implements FilmProcessor {
         OutputStream ffmpegInput = p.getOutputStream();
 
         progressMonitor=new ProgressWidget(0,timeline.getOverallSize(),"saveMovie");
+        DefaultMovieView littleMovieViev=new DefaultMovieView();
+        littleMovieViev.setSize(320,240);
+        progressMonitor.add(littleMovieViev);
         progress=0;
         Stream<File> fileStream = timeline.getFileStream();
         tr=new Thread(()->{
@@ -135,12 +138,11 @@ public class FilmProcessorImpl implements FilmProcessor {
             try {
 
                 fileInputStream = new FileInputStream(file);
-
                 fileInputStream.read(image);
-
                 ImageInputStream iis = ImageIO.createImageInputStream(
                         new ByteArrayInputStream(image));
                 BufferedImage img = ImageIO.read(iis);
+                littleMovieViev.showFrame(CutLoaderImpl.toBufferedImage(img.getScaledInstance(320,240,Image.SCALE_FAST)));
                 EffectQue effectQue= timeline.getContainerOnPosition(TimeLineDriverImpl.intToPosition(timeline,progress)).getEffectQue();
                 ImageIO.write((RenderedImage) effectQue.performEffects(img), "JPEG", ffmpegInput);
                 fileInputStream.close();

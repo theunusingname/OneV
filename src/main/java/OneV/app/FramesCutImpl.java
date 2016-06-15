@@ -6,8 +6,8 @@ import OneV.app.Effects.EffectQueImpl;
 
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -80,7 +80,17 @@ public class FramesCutImpl implements FramesCut, Serializable {
     public FramesCut cut(int pos) {
         ArrayList<MovieFrame> rightPart = new ArrayList<>(frames.subList(pos,frames.size()));
         frames.removeAll(rightPart);
+        FramesCutImpl result=new FramesCutImpl(rightPart);
+        result.setEffectQue(effectQue);
         return new FramesCutImpl(rightPart);
+    }
+
+    protected void setEffectQue(EffectQue effects)
+    {
+        if(effects==null)
+            return;
+
+        this.effectQue=effects;
     }
 
     @Override

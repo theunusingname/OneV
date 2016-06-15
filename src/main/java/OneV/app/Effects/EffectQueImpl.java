@@ -19,6 +19,7 @@ public class EffectQueImpl implements EffectQue , Serializable{
     {
         effectList=new LinkedList<>();
     }
+    public EffectQueImpl(List<Effect> effects){effectList=effects;}
 
     @Override
     public void addEffect(Effect effect) {
